@@ -1,8 +1,8 @@
 package engine;
 import java.util.ArrayList;
 
-/*
-	Created by Matthew Chivallati on 9/9/2015.
+/**
+ * @author                  Created by Matthew Chivallati on 9/9/2015.
  */
 
 public class Deck
@@ -10,6 +10,9 @@ public class Deck
 
 	private ArrayList<Card> deck = new ArrayList<Card>();
 
+	/**
+	 *
+	 */
 	public Deck( )
 	{
 
@@ -20,6 +23,9 @@ public class Deck
 
 	}
 
+	/**
+	 *
+	 */
 	public void addSpades( )
 	{
 
@@ -36,6 +42,9 @@ public class Deck
 
 	}
 
+	/**
+	 *
+	 */
 	public void addClubs( )
 	{
 
@@ -52,6 +61,9 @@ public class Deck
 
 	}
 
+	/**
+	 *
+	 */
 	public void addHearts( )
 	{
 
@@ -68,6 +80,9 @@ public class Deck
 
 	}
 
+	/**
+	 *
+	 */
 	public void addDiamonds( )
 	{
 
@@ -84,6 +99,10 @@ public class Deck
 
 	}
 
+	/**
+	 * @param i             int value to be checked
+	 * @return              String card rank
+	 */
 	public String checkRank( int i ) //only to be used with the add*SuitName* methods // i < 13
 	{
 
@@ -174,6 +193,9 @@ public class Deck
 
 	}
 
+	/**
+	 *
+	 */
 	public void printDeck( )
 	{
 
@@ -186,6 +208,10 @@ public class Deck
 
 	}
 
+	/**
+	 * @param i             int first card location
+	 * @param k             int second card location
+	 */
 	public void swap( int i, int k )
 	{
 
@@ -201,29 +227,20 @@ public class Deck
 
 	}
 
+	/**
+	 * @param numShuffles   int number of card swaps to be made
+	 */
 	public void shuffleDeck( int numShuffles )
 	{
 
 		for ( int j = 0 ; j < numShuffles ; j++ )
 		{
 
-			int randomInt1 = randomInt( 0, 51 );
-			int randomInt2 = randomInt( 0, 51 );
+			int randomInt1 = util.randomInt( 0, 51 );
+			int randomInt2 = util.randomInt( 0, 51 );
 			swap( randomInt1, randomInt2 );
 
 		}
-
-	}
-
-	//---------- Random Number Method ---------//
-
-
-	public static int randomInt( int min, int max )
-	{
-
-		int range = ( max + 1 ) - min;
-
-		return (int) ( ( Math.random() * range ) + min );
 
 	}
 
