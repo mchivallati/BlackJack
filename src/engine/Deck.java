@@ -2,7 +2,7 @@ package engine;
 import java.util.ArrayList;
 
 /**
- * @author                  Created by Matthew Chivallati on 9/9/2015.
+ *  Created by Matthew Chivallati on 9/9/2015.
  */
 
 public class Deck

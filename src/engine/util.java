@@ -1,7 +1,7 @@
 package engine;
 
 /**
- * @author          Created by Matthew Chivallati on 9/9/2015.
+ *  Created by Matthew Chivallati on 9/9/2015.
  */
 public class util
 {
@@ -12,7 +12,7 @@ public class util
 	/**
 	 * @param min           int minimum bound
 	 * @param max           int maximum bound
-	 * @return              int pseudorandom value withing the given range
+	 * @return              int pseudorandom value within the given range
 	 */
 	public static int randomInt( int min, int max )
 	{
