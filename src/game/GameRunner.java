@@ -1,19 +1,14 @@
 package game;
 
+import engine.Dealer;
 import engine.Deck;
-
-import javax.swing.*;
-import java.awt.*;
+import engine.Player;
 
 /**
  * @author          Created by Matthew Chivallati on 9/9/2015.
  */
-public class GameRunner extends JFrame
+public class GameRunner
 {
-
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int screenWidth = (int) screenSize.getWidth();
-	int screenHeight = (int) screenSize.getHeight();
 
 	/**
 	 * @param args  String
@@ -22,6 +17,8 @@ public class GameRunner extends JFrame
 	{
 
 		Deck gameDeck = new Deck();
+		Dealer dealer = new Dealer(gameDeck.getDeck());
+		Player player = new Player(gameDeck.getDeck());
 
 	}
 	

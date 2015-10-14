@@ -9,5 +9,7 @@ import java.awt.*;
  */
 public class GameFrame
 {
-
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	int screenWidth = (int) screenSize.getWidth();
+	int screenHeight = (int) screenSize.getHeight();
 }
