@@ -10,15 +10,30 @@ import engine.Player;
 public class GameRunner
 {
 
+	static boolean dealerWin = false;
+	static boolean playerWin = false;
+	static Deck gameDeck = new Deck();
+	static Dealer dealer = new Dealer(gameDeck.getDeck());
+	static Player player = new Player(gameDeck.getDeck());
+
 	/**
 	 * @param args  String
 	 */
 	public static void main(String[] args)
 	{
 
-		Deck gameDeck = new Deck();
-		Dealer dealer = new Dealer(gameDeck.getDeck());
-		Player player = new Player(gameDeck.getDeck());
+		new GameFrame();
+
+	}
+
+	public static void checkRules()
+	{
+
+		if (GameRules.isHigher( dealer.getHand() , player.getHand() )) {
+			dealerWin = true;
+		} else {
+			playerWin = true;
+		}
 
 	}
 	
