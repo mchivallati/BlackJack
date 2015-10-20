@@ -17,12 +17,9 @@ interface Person
 	/**
 	 * @param deck          ArrayList<Card> game deck
 	 */
-	void returnCards(ArrayList<Card> deck);
+	void returnCardsToDeck(ArrayList<Card> deck);
 
-	/**
-	 * @param hand          ArrayList<Card> the persons hand
-	 */
-	void getHandValue(ArrayList<Card> hand);
+	int getHandValue();
 
 	/**
 	 * @param deck          ArrayList<Card> game deck

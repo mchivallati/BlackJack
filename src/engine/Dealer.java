@@ -7,9 +7,9 @@ import java.util.ArrayList;
  */
 public class Dealer implements Person
 {
-	
-	ArrayList<Card> hand;
-	int handValue;
+
+	private ArrayList<Card> hand = new ArrayList<Card>();
+	private int handValue;
 
 	/**
 	 * @param deck          ArrayList<Card> game deck
@@ -18,7 +18,7 @@ public class Dealer implements Person
 	{
 		
 		initCards(deck , deck.size());
-		getHandValue(hand);
+		setHandValue( hand );
 		
 	}
 	
@@ -41,7 +41,7 @@ public class Dealer implements Person
 	 * @param deck          ArrayList<Card> game deck
 	 */
 	@Override
-	public void returnCards( ArrayList<Card> deck )
+	public void returnCardsToDeck( ArrayList<Card> deck )
 	{
 		for ( Card aHand : hand ) {
 			deck.add( aHand );
@@ -51,8 +51,7 @@ public class Dealer implements Person
 	/**
 	 * @param hand          ArrayList<Card> the persons hand
 	 */
-	@Override
-	public void getHandValue( ArrayList<Card> hand )
+	private void setHandValue( ArrayList<Card> hand )
 	{
 
 		for ( Card aHand : hand ) {
@@ -60,6 +59,17 @@ public class Dealer implements Person
 		}
 		
 	}
+
+	/**
+	 * @return              int value of the dealers current hand
+	 */
+	@Override
+	public int getHandValue() {return handValue;}
+
+	/**
+	 * @return              ArrayList<Card> the hand of the dealer
+	 */
+	public ArrayList<Card> getHand() {return this.hand;}
 
 	/**
 	 * @param deck          ArrayList<Card> game deck
