@@ -19,6 +19,9 @@ interface Person
 	 */
 	void returnCardsToDeck(ArrayList<Card> deck);
 
+	/**
+	 * @return              int value of the persons hand
+	 */
 	int getHandValue();
 
 	/**

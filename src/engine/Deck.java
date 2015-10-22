@@ -244,6 +244,9 @@ public class Deck
 
 	}
 
+	/**
+	 * @return              returns the ArrayList<Card> to use in the game
+	 */
 	public ArrayList<Card> getDeck() {return this.deck;}
 
 }

@@ -10,21 +10,35 @@ import java.awt.*;
 public class GameFrame extends JFrame
 {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int screenWidth = (int) screenSize.getWidth();
-	int screenHeight = (int) screenSize.getHeight();
+	int appWidth = (int) screenSize.getWidth() / 2;
+	int appHeight = (int) screenSize.getHeight() / 2;
 
-	public GameFrame()
+	public GameFrame(Graphics g)
 	{
 
 		super("Blackjack");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(screenSize);
-		setResizable(false);
+		setSize(appWidth,appHeight);
+		setResizable( false );
 
-		JButton hit = new JButton("Hit");
-		add(hit);
+		//init methods here
 
 		setVisible(true);
+	}
+
+	public void initPlayerInfo(Graphics g)
+	{
+
+		g.drawRect( 0 , 0 , appWidth / 2 , appHeight / 2 );
+
+
+	}
+
+	public void initDealerInfo(Graphics g)
+	{
+
+
+
 	}
 
 }

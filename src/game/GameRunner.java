@@ -4,6 +4,8 @@ import engine.Dealer;
 import engine.Deck;
 import engine.Player;
 
+import java.awt.*;
+
 /**
  * @author          Created by Matthew Chivallati on 9/9/2015.
  */
@@ -15,6 +17,7 @@ public class GameRunner
 	static Deck gameDeck = new Deck();
 	static Dealer dealer = new Dealer(gameDeck.getDeck());
 	static Player player = new Player(gameDeck.getDeck());
+	static Graphics g;
 
 	/**
 	 * @param args  String
@@ -22,10 +25,13 @@ public class GameRunner
 	public static void main(String[] args)
 	{
 
-		new GameFrame();
+		new GameFrame(g);
 
 	}
 
+	/**
+	 *
+	 */
 	public static void checkRules()
 	{
 
@@ -34,6 +40,16 @@ public class GameRunner
 		} else {
 			playerWin = true;
 		}
+
+	}
+
+	/**
+	 *
+	 */
+	public static void play()
+	{
+
+
 
 	}
 	

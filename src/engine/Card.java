@@ -1,4 +1,10 @@
 package engine;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+
 /**
  *  Created by Matthew Chivallati on 9/9/2015.
  */
@@ -72,7 +78,31 @@ public class Card
 	public String toString()
 	{
 
-		return rank + " of " + suit + " with a value of " + val;
+		return rank + " of " + suit;
+
+	}
+
+	/**
+	 * @return          String the path of the card image specific to a card
+	 */
+	public String getCardImgPath() {return "images/" + suit.toLowerCase() + "/" + val + "_of_" + suit.toLowerCase() + ".png";}
+
+	/**
+	 * @param g         Graphics object
+	 * @param x         int top left x coordinate of the image
+	 * @param y         int top left y coordinate of the image
+	 */
+	public void displayCard(Graphics g , int x , int y)
+	{
+
+		BufferedImage cardImg = null;
+		try {
+			cardImg = ImageIO.read( new File( getCardImgPath() ) );
+		} catch (IOException e) {
+			System.out.println("The image for " + toString() + "could not be loaded");
+		}
+
+		g.drawImage(cardImg , x , y , null);
 
 	}
 
