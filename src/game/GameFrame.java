@@ -1,36 +1,21 @@
 package game;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
  * BlackJack
  * Created by CompSci-04 on 10/13/2015.
  */
-public class GameFrame extends JFrame
+public class GameFrame
 {
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int appWidth = (int) screenSize.getWidth() / 2;
-	int appHeight = (int) screenSize.getHeight() / 2;
+	
 
-	public GameFrame(Graphics g)
+	public static void initPlayerInfo( Graphics g )
 	{
 
-		super("Blackjack");
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(appWidth,appHeight);
-		setResizable( false );
-
-		//init methods here
-
-		setVisible(true);
-	}
-
-	public void initPlayerInfo(Graphics g)
-	{
-
-		g.drawRect( 0 , 0 , appWidth / 2 , appHeight / 2 );
-
+		g.drawRect( 0 , 0 , 600 , 600 );
+		GameRunner.player.getHand().get(0).displayCard( g , 50 , 50 );
+		GameRunner.player.getHand().get(1).displayCard( g , 80 , 800 );
 
 	}
 

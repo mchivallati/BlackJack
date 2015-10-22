@@ -85,7 +85,7 @@ public class Card
 	/**
 	 * @return          String the path of the card image specific to a card
 	 */
-	public String getCardImgPath() {return "images/" + suit.toLowerCase() + "/" + val + "_of_" + suit.toLowerCase() + ".png";}
+	public String getCardImgPath() {return ".../images/" + val + "_of_" + suit.toLowerCase() + ".png";}
 
 	/**
 	 * @param g         Graphics object
@@ -94,12 +94,18 @@ public class Card
 	 */
 	public void displayCard(Graphics g , int x , int y)
 	{
+		System.out.println(getCardImgPath());
 
 		BufferedImage cardImg = null;
 		try {
 			cardImg = ImageIO.read( new File( getCardImgPath() ) );
+			
 		} catch (IOException e) {
-			System.out.println("The image for " + toString() + "could not be loaded");
+			System.out.println("The image for " + toString() + " could not be loaded");
+		}
+
+		if (cardImg != null) {
+			cardImg.getScaledInstance(180, 252, Image.SCALE_DEFAULT);
 		}
 
 		g.drawImage(cardImg , x , y , null);
