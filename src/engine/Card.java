@@ -85,7 +85,7 @@ public class Card
 	/**
 	 * @return          String the path of the card image specific to a card
 	 */
-	public String getCardImgPath() {return ".../images/" + val + "_of_" + suit.toLowerCase() + ".png";}
+	public String getCardImgPath() {return "../images/" + val + "_of_" + suit.toLowerCase() + ".png";}
 
 	/**
 	 * @param g         Graphics object
