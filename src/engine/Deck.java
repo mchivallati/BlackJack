@@ -11,7 +11,7 @@ public class Deck
 	private ArrayList<Card> deck = new ArrayList<Card>();
 
 	/**
-	 *
+	 * DEFAULT CONSTRUCTOR
 	 */
 	public Deck( )
 	{
@@ -24,7 +24,7 @@ public class Deck
 	}
 
 	/**
-	 *
+	 * ONLY USED IN DECK.JAVA
 	 */
 	public void addSpades( )
 	{
@@ -33,6 +33,10 @@ public class Deck
 
 		for ( int i = 0 ; i < 13 ; i++ )
 		{
+
+			if (val > 10) {
+				val = 10;
+			}
 
 			Card s = new Card( "Spades", checkRank( i ), val );
 			this.deck.add( s );
@@ -43,7 +47,7 @@ public class Deck
 	}
 
 	/**
-	 *
+	 * ONLY USED IN DECK.JAVA
 	 */
 	public void addClubs( )
 	{
@@ -52,6 +56,10 @@ public class Deck
 
 		for ( int i = 0 ; i < 13 ; i++ )
 		{
+
+			if (val > 10) {
+				val = 10;
+			}
 
 			Card c = new Card( "Clubs", checkRank( i ), val );
 			this.deck.add( c );
@@ -62,7 +70,7 @@ public class Deck
 	}
 
 	/**
-	 *
+	 * ONLY USED IN DECK.JAVA
 	 */
 	public void addHearts( )
 	{
@@ -71,6 +79,10 @@ public class Deck
 
 		for ( int i = 0 ; i < 13 ; i++ )
 		{
+
+			if (val > 10) {
+				val = 10;
+			}
 
 			Card h = new Card( "Hearts", checkRank( i ), val );
 			this.deck.add( h );
@@ -81,7 +93,7 @@ public class Deck
 	}
 
 	/**
-	 *
+	 * ONLY USED IN DECK.JAVA
 	 */
 	public void addDiamonds( )
 	{
@@ -91,6 +103,10 @@ public class Deck
 		for ( int i = 0 ; i < 13 ; i++ )
 		{
 
+			if (val > 10) {
+				val = 10;
+			}
+
 			Card d = new Card( "Diamonds", checkRank( i ), val );
 			this.deck.add( d );
 			val++;
@@ -99,7 +115,7 @@ public class Deck
 
 	}
 
-	/**
+	/** ONLY USED IN DECK.JAVA
 	 * @param i             int value to be checked
 	 * @return              String card rank
 	 */
@@ -194,7 +210,7 @@ public class Deck
 	}
 
 	/**
-	 *
+	 * OBJECT METHOD
 	 */
 	public void printDeck( )
 	{
@@ -208,7 +224,7 @@ public class Deck
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @param i             int first card location
 	 * @param k             int second card location
 	 */
@@ -227,7 +243,7 @@ public class Deck
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @param numShuffles   int number of card swaps to be made
 	 */
 	public void shuffleDeck( int numShuffles )
@@ -244,7 +260,7 @@ public class Deck
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @return              returns the ArrayList<Card> to use in the game
 	 */
 	public ArrayList<Card> getDeck() {return this.deck;}

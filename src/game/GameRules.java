@@ -16,6 +16,7 @@ public class GameRules
 	public static boolean dealerWin = false;
 	public static boolean playerWin = false;
 
+	//TEMPORARY TEST RUNNER
 	public static void main(String[] args)
 	{
 
@@ -37,12 +38,12 @@ public class GameRules
 
 	}
 
-	/**
+	/** USED ONLY IN GAMERULES.JAVA
 	 * @param dealer            Dealer the dealer
 	 * @param player            Player the player
 	 * @return                  boolean true if the dealers wins, false if the player wins
 	 */
-	public static boolean isHigher(Dealer dealer , Player player)
+	private static boolean isHigher(Dealer dealer , Player player)
 	{
 
 		return dealer.getHandValue() >= player.getHandValue();
@@ -50,27 +51,34 @@ public class GameRules
 	}
 
 
-	/**
+	/** CLASS METHOD
 	 * @param dealer            Dealer the dealer
 	 * @param player            PLayer the player
 	 */
 	public static void checkRules( Dealer dealer , Player player)
 	{
-
 		if ( isHigher( dealer, player ) ) {
 			dealerWin = true;
+			playerWin = false;
 		} else if ( !isHigher( dealer, player ) ) {
 			playerWin = true;
+			dealerWin = false;
 		}
 
 		if (dealer.isBust() && player.isBust()) {
 			System.out.println("You both lose");
-		} else if ( dealer.isBust() ) {
 			dealerWin = false;
-		} else if (player.isBust()) {
 			playerWin = false;
 		}
+		if ( dealer.isBust() && !player.isBust() ) {
+			dealerWin = false;
+			playerWin = true;
+			System.out.println("The dealer busted");
+		} else if (player.isBust() && !dealer.isBust()) {
+			playerWin = false;
+			dealerWin = true;
+			System.out.println("You busted");
+		}
 	}
-
 
 }

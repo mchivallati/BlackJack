@@ -29,7 +29,7 @@ public class Card
 
 	}
 
-	/**
+	/** CONSTRUCTOR
 	 * @param suit      String card suit
 	 * @param rank      String card rank
 	 * @param val       int card point value
@@ -43,17 +43,17 @@ public class Card
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @return          String card suit
 	 */
 	public String getSuit() {return this.suit;}
 
-	/**
+	/** OBJECT METHOD
 	 * @return          String card rank
 	 */
 	public String getRank() {return this.rank;}
 
-	/**
+	/** OBJECT METHOD
 	 * @return          int card point value
 	 */
 	public int getVal() {return this.val;}
@@ -63,17 +63,17 @@ public class Card
 	 */
 	void setRank( String rank ) {this.rank = rank;}
 
-	/**
+	/** OBJECT METHOD
 	 * @param suit      String card suit
 	 */
 	void setSuit( String suit ) {this.suit = suit;}
 
-	/**
+	/** OBJECT METHOD
 	 * @param val       int card point value
 	 */
 	void setVal( int val ) {this.val = val;}
 	
-	/**
+	/** OBJECT METHOD
 	 * @return          String representation of a Card
 	 */
 	@Override
@@ -84,7 +84,7 @@ public class Card
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @return          String the path of the card image specific to a card
 	 */
 	public String getCardImgPath()

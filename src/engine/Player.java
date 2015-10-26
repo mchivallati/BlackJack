@@ -11,7 +11,7 @@ public class Player implements Person
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private int handValue;
 
-	/**
+	/** CONSTRUCTOR
 	 * @param deck          ArrayList<Card> game deck
 	 */
 	public Player(ArrayList<Card> deck)
@@ -19,10 +19,13 @@ public class Player implements Person
 		
 		initCards(deck , deck.size());
 		setHandValue( hand );
+		checkAce();
+
+
 		
 	}
 	
-	/**
+	/** OBJECT METHOD
 	 * @param deck          ArrayList<Card> game deck
 	 * @param numCards      int size of deck
 	 */
@@ -39,7 +42,7 @@ public class Player implements Person
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @param deck          ArrayList<Card> game deck
 	 */
 	@Override
@@ -52,7 +55,7 @@ public class Player implements Person
 		System.out.println("There are " + deck.size() + " cards left");
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @param hand          ArrayList<Card> the persons hand
 	 */
 	public void setHandValue( ArrayList<Card> hand )
@@ -64,7 +67,7 @@ public class Player implements Person
 		
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @param deck          ArrayList<Card> game deck
 	 */
 	@Override
@@ -74,13 +77,13 @@ public class Player implements Person
 		deck.remove(0);
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @return              int value of the players current hand
 	 */
 	@Override
 	public int getHandValue() {return this.handValue;}
 
-	/**
+	/** OBJECT METHOD
 	 * @return              ArrayList<Card> the hand of the dealer
 	 */
 	public ArrayList<Card> getHand() {return this.hand;}
@@ -94,11 +97,25 @@ public class Player implements Person
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @return              boolean true if the player hand value is over 21
 	 */
 	@Override
 	public boolean isBust() {return this.handValue > 21;}
+
+	/**
+	 *
+	 */
+	private void checkAce()
+	{
+		for ( Card aHand : hand ) {
+			if ( aHand.getVal() == 1 && handValue + 10 <= 21 ) {
+				aHand.setVal( 11 );
+			}
+		}
+		handValue = 0;
+		setHandValue( hand );
+	}
 	
 	@Override
 	public String toString()
@@ -106,7 +123,7 @@ public class Player implements Person
 		String temp = "";
 		temp += "Hand Value: " + handValue;
 		for (int i = 0 ; i < hand.size() ; i++) {
-			temp += "\nCard " + i + ":\t" + hand.get(i).toString();
+			temp += "\nCard " + (i + 1) + ":\t" + hand.get(i).toString();
 		}
 		
 		return temp;

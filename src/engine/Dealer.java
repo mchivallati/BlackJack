@@ -11,7 +11,7 @@ public class Dealer implements Person
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private int handValue;
 
-	/**
+	/** CONSTRUCTOR
 	 * @param deck          ArrayList<Card> game deck
 	 */
 	public Dealer(ArrayList<Card> deck)
@@ -19,10 +19,11 @@ public class Dealer implements Person
 		
 		initCards(deck , deck.size());
 		setHandValue( hand );
+		checkAce();
 		
 	}
 	
-	/**
+	/** OBJECT METHOD
 	 * @param deck          ArrayList<Card> game deck
 	 * @param numCards      int size of deck
 	 */
@@ -39,7 +40,7 @@ public class Dealer implements Person
 
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @param deck          ArrayList<Card> game deck
 	 */
 	@Override
@@ -51,7 +52,7 @@ public class Dealer implements Person
 		System.out.println("There are " + deck.size() + " cards left");
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @param hand          ArrayList<Card> the persons hand
 	 */
 	private void setHandValue( ArrayList<Card> hand )
@@ -63,18 +64,18 @@ public class Dealer implements Person
 		
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @return              int value of the dealers current hand
 	 */
 	@Override
 	public int getHandValue() {return handValue;}
 
-	/**
+	/** OBJECT METHOD
 	 * @return              ArrayList<Card> the hand of the dealer
 	 */
 	public ArrayList<Card> getHand() {return this.hand;}
 
-	/**
+	/** OBJECT METHOD
 	 * @param deck          ArrayList<Card> game deck
 	 */
 	@Override
@@ -93,7 +94,7 @@ public class Dealer implements Person
 		
 	}
 
-	/**
+	/** OBJECT METHOD
 	 * @return              boolean true if the dealer hand value is over 21
 	 */
 	@Override
@@ -102,7 +103,21 @@ public class Dealer implements Person
 	/**
 	 *
 	 */
-	public void dealerAI()
+	private void checkAce()
+	{
+		for ( Card aHand : hand ) {
+			if ( aHand.getVal() == 1 && handValue + 10 <= 21 ) {
+				aHand.setVal( 11 );
+			}
+		}
+		handValue = 0;
+		setHandValue( hand );
+	}
+
+	/**
+	 * OBJECT METHOD
+	 */
+	public static void useDealerAI()
 	{
 		
 	}
