@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *  Created by Matthew Chivallati on 9/9/2015.
@@ -85,21 +87,30 @@ public class Card
 	/**
 	 * @return          String the path of the card image specific to a card
 	 */
-	public String getCardImgPath() {return System.getProperty("user.dir") + "//images//" + val + "_of_" + suit.toLowerCase() + ".png";}
-
-	/**
-	 * @param g         Graphics object
-	 * @param x         int top left x coordinate of the image
-	 * @param y         int top left y coordinate of the image
-	 */
-	public void displayCard(Graphics g , int x , int y)
+	public String getCardImgPath()
 	{
-		System.out.println(getCardImgPath());
+
+		/*Path currentRelativePath = Paths.get( "" );
+		String s = currentRelativePath.toAbsolutePath().toString();
+
+		System.out.println( s );*/
+
+		return System.getProperty( "user.dir" ) + "/images/" + val + "_of_" + suit.toLowerCase() + ".png";
+
+	}
+
+
+	/** OBJECT METHOD
+	 * @return          BufferedImage for the card
+	 */
+	public BufferedImage getCardImg()
+	{
+		//System.out.println(getCardImgPath());
 
 		BufferedImage cardImg = null;
 		try {
 			cardImg = ImageIO.read( new File( getCardImgPath() ) );
-			
+
 		} catch (IOException e) {
 			System.out.println("The image for " + toString() + " could not be loaded");
 		}
@@ -108,7 +119,7 @@ public class Card
 			cardImg.getScaledInstance(180, 252, Image.SCALE_DEFAULT);
 		}
 
-		g.drawImage(cardImg , x , y , null);
+		return cardImg;
 
 	}
 

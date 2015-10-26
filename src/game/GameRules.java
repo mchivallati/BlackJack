@@ -1,6 +1,10 @@
 package game;
 
 import engine.Card;
+import engine.Dealer;
+import engine.Deck;
+import engine.Player;
+
 import java.util.ArrayList;
 
 /**
@@ -9,30 +13,64 @@ import java.util.ArrayList;
 public class GameRules
 {
 
-	private static int dealerHandValue , playerHandValue;
+	public static boolean dealerWin = false;
+	public static boolean playerWin = false;
 
-	/**
-	 * @param dealerHand        ArrayList<Card> the dealers hand
-	 * @param playerHand        ArrayList<Card> the players hand
-	 * @return                  boolean true if the dealers wins, false if the player wins
-	 */
-	public static boolean isHigher(ArrayList<Card> dealerHand , ArrayList<Card> playerHand)
+	public static void main(String[] args)
 	{
 
-		for ( Card aDealerHand : dealerHand ) {
+		Deck deck = new Deck();
+		deck.shuffleDeck( 1000 );
+		System.out.println("Dealer");
+		Dealer d = new Dealer(deck.getDeck());
+		System.out.println( d.toString() );
+		System.out.println();
+		System.out.println("Player");
+		Player p = new Player(deck.getDeck());
+		System.out.println( p.toString() );
+		System.out.println();
 
-			dealerHandValue += aDealerHand.getVal();
+		checkRules(d , p);
 
-		}
-
-		for ( Card aPlayerHand : playerHand ) {
-
-			playerHandValue += aPlayerHand.getVal();
-
-		}
-
-		return dealerHandValue >= playerHandValue;
+		System.out.println("Dealer Won: " + dealerWin);
+		System.out.println("Player Won: " + playerWin);
 
 	}
+
+	/**
+	 * @param dealer            Dealer the dealer
+	 * @param player            Player the player
+	 * @return                  boolean true if the dealers wins, false if the player wins
+	 */
+	public static boolean isHigher(Dealer dealer , Player player)
+	{
+
+		return dealer.getHandValue() >= player.getHandValue();
+
+	}
+
+
+	/**
+	 * @param dealer            Dealer the dealer
+	 * @param player            PLayer the player
+	 */
+	public static void checkRules( Dealer dealer , Player player)
+	{
+
+		if ( isHigher( dealer, player ) ) {
+			dealerWin = true;
+		} else if ( !isHigher( dealer, player ) ) {
+			playerWin = true;
+		}
+
+		if (dealer.isBust() && player.isBust()) {
+			System.out.println("You both lose");
+		} else if ( dealer.isBust() ) {
+			dealerWin = false;
+		} else if (player.isBust()) {
+			playerWin = false;
+		}
+	}
+
 
 }

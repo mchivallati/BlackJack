@@ -236,8 +236,8 @@ public class Deck
 		for ( int j = 0 ; j < numShuffles ; j++ )
 		{
 
-			int randomInt1 = util.randomInt( 0, 51 );
-			int randomInt2 = util.randomInt( 0, 51 );
+			int randomInt1 = util.randomInt( 0, deck.size() - 1 );
+			int randomInt2 = util.randomInt( 0, deck.size() - 1 );
 			swap( randomInt1, randomInt2 );
 
 		}

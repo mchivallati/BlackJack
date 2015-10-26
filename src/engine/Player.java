@@ -35,6 +35,8 @@ public class Player implements Person
 		this.hand.add( deck.get(0) );
 		deck.remove(0);
 
+		System.out.println("There are " + deck.size() + " cards left");
+
 	}
 
 	/**
@@ -47,6 +49,7 @@ public class Player implements Person
 		{
 			deck.add( aHand );
 		}
+		System.out.println("There are " + deck.size() + " cards left");
 	}
 
 	/**
@@ -90,13 +93,19 @@ public class Player implements Person
 	{
 
 	}
+
+	/**
+	 * @return              boolean true if the player hand value is over 21
+	 */
+	@Override
+	public boolean isBust() {return this.handValue > 21;}
 	
 	@Override
 	public String toString()
 	{
 		String temp = "";
 		temp += "Hand Value: " + handValue;
-		for (int i = 1 ; i <= hand.size() ; i++) {
+		for (int i = 0 ; i < hand.size() ; i++) {
 			temp += "\nCard " + i + ":\t" + hand.get(i).toString();
 		}
 		

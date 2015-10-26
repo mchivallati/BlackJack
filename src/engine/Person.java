@@ -30,5 +30,7 @@ interface Person
 	void hit(ArrayList<Card> deck);
 	
 	void stay();
+
+	boolean isBust();
 	
 }
