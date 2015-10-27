@@ -61,6 +61,7 @@ public class Player implements Person
 	public void setHandValue( ArrayList<Card> hand )
 	{
 
+		handValue = 0;
 		for ( Card aHand : hand ) {
 			handValue += aHand.getVal();
 		}
@@ -73,8 +74,15 @@ public class Player implements Person
 	@Override
 	public void hit( ArrayList<Card> deck )
 	{
-		this.hand.add( deck.get(0) );
-		deck.remove(0);
+		this.hand.add( deck.get( 0 ) );
+		this.handValue += deck.get(0).getVal();
+		deck.remove( 0 );
+		//setHandValue(deck);
+		System.out.println();
+		System.out.println("---------------------");
+		System.out.println("You take a card from the deck");
+		System.out.println( "---------------------");
+		System.out.println(toString());
 	}
 
 	/** OBJECT METHOD
@@ -94,6 +102,11 @@ public class Player implements Person
 	@Override
 	public void stay()
 	{
+		System.out.println();
+		System.out.println("---------------------");
+		System.out.println("You elect to stay with a hand value of " + handValue);
+		System.out.println( "---------------------");
+		System.out.println(toString());
 
 	}
 
@@ -113,7 +126,6 @@ public class Player implements Person
 				aHand.setVal( 11 );
 			}
 		}
-		handValue = 0;
 		setHandValue( hand );
 	}
 	
