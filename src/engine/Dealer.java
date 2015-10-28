@@ -84,6 +84,7 @@ public class Dealer implements Person
 		this.hand.add( deck.get(0) );
 		this.handValue += deck.get(0).getVal();
 		deck.remove(0);
+		checkAce();
 		//setHandValue(deck);
 		System.out.println();
 		System.out.println("---------------------");
