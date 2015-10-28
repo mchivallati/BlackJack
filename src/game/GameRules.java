@@ -24,11 +24,12 @@ public class GameRules
 			Deck deck = new Deck();
 			deck.shuffleDeck( 1000 );
 			System.out.println( "!----------Start of Hand----------!" );
-			System.out.println( "Dealer" );
+			//System.out.println( "Dealer" );
 			Dealer d = new Dealer( deck.getDeck() );
 			//System.out.println( d.toString() );
 			System.out.println();
 			System.out.println( "Player" );
+			System.out.println();
 			Player p = new Player( deck.getDeck() );
 			System.out.println( p.toString() );
 			System.out.println();
@@ -49,6 +50,9 @@ public class GameRules
 			System.out.println( "!----------End of Hand----------!" );
 			System.out.println();
 		} while (askToPlay());
+
+		System.out.println();
+		System.out.println("Thanks for playing, don't forget to tip you dev!");
 
 	}
 
@@ -163,6 +167,10 @@ public class GameRules
 				System.out.println( "Oops! You entered in a wrong letter. HINT: enter H for hit and S for stay" );
 				System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
 			}
+
+				System.out.print( "Hit again? Y/N: " );
+				userIn = finish.nextLine();
+
 		}
 
 

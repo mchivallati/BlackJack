@@ -20,8 +20,6 @@ public class Player implements Person
 		initCards(deck , deck.size());
 		setHandValue( hand );
 		checkAce();
-
-
 		
 	}
 	
@@ -33,10 +31,10 @@ public class Player implements Person
 	public void initCards( ArrayList<Card> deck, int numCards )
 	{
 
-		this.hand.add( deck.get(0) );
-		deck.remove(0);
-		this.hand.add( deck.get(0) );
-		deck.remove(0);
+		this.hand.add( deck.get( 0 ) );
+		deck.remove( 0 );
+		this.hand.add( deck.get( 0 ) );
+		deck.remove( 0 );
 
 		System.out.println("There are " + deck.size() + " cards left");
 
@@ -77,6 +75,7 @@ public class Player implements Person
 		this.hand.add( deck.get( 0 ) );
 		this.handValue += deck.get(0).getVal();
 		deck.remove( 0 );
+		checkAce();
 		//setHandValue(deck);
 		System.out.println();
 		System.out.println("---------------------");
