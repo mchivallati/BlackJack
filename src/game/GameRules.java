@@ -52,6 +52,7 @@ public class GameRules
 		} while (askToPlay());
 
 		System.out.println();
+		System.out.println("YOU CANT STOP PLAYING YOU HEATHEN");
 		System.out.println("Thanks for playing, don't forget to tip you dev!");
 
 	}
