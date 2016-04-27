@@ -49,11 +49,11 @@ public class GameRules
 			System.out.println();
 			System.out.println( "!----------End of Hand----------!" );
 			System.out.println();
-		} while (askToPlay());
+		} while (askToReplay());
 
 		System.out.println();
 		System.out.println("YOU CANT STOP PLAYING YOU HEATHEN");
-		System.out.println("Thanks for playing, don't forget to tip you dev!");
+		System.out.println("Thanks for playing, don't forget to tip your dev!");
 
 	}
 
@@ -116,7 +116,7 @@ public class GameRules
 	/**
 	 * @return                  boolean true if the player wants to continue playing
 	 */
-	public static boolean askToPlay()
+	public static boolean askToReplay()
 	{
 
 		Scanner scan = new Scanner(System.in);
@@ -133,19 +133,23 @@ public class GameRules
 	 */
 	public static void takeAction(String input , Player p , ArrayList<Card> deck)
 	{
-			if ( input.toUpperCase().equals( "H" ) ) {
-				p.hit( deck );
-			}
 
-			if ( input.toUpperCase().equals( "S" ) ) {
-				p.stay();
-			}
+		while ( ! input.toUpperCase().equals( "H" ) && ! input.toUpperCase().equals( "S" ) ) {
+			System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
+			System.out.println( "Oops! You entered in a wrong letter. HINT: enter H for hit and S for stay" );
+			System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
 
-			if ( ! input.toUpperCase().equals( "H" ) && ! input.toUpperCase().equals( "S" ) ) {
-				System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-				System.out.println( "Oops! You entered in a wrong letter. HINT: enter H for hit and S for stay" );
-				System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-			}
+			Scanner scan = new Scanner(System.in);
+			System.out.print("Do you want to hit or stay? H/S: ");
+			input = scan.nextLine();
+		}
+		
+		if ( input.toUpperCase().equals( "H" ) ) {
+			p.hit( deck );
+		}
+		if ( input.toUpperCase().equals( "S" ) ) {
+			p.stay();
+		}
 
 		Scanner finish = new Scanner( System.in );
 		String userIn = "";
