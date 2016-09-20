@@ -36,8 +36,6 @@ public class Player implements Person
 		this.hand.add( deck.get( 0 ) );
 		deck.remove( 0 );
 
-		System.out.println("There are " + deck.size() + " cards left");
-
 	}
 
 	/** OBJECT METHOD
@@ -78,9 +76,9 @@ public class Player implements Person
 		checkAce();
 		//setHandValue(deck);
 		System.out.println();
-		System.out.println("---------------------");
+		System.out.println("-----------------------------");
 		System.out.println("You take a card from the deck");
-		System.out.println( "---------------------");
+		System.out.println( "----------------------------");
 		System.out.println(toString());
 	}
 
@@ -102,10 +100,9 @@ public class Player implements Person
 	public void stay()
 	{
 		System.out.println();
-		System.out.println("---------------------");
+		System.out.println("-------------------------------------------------------");
 		System.out.println("You elect to stay with a hand value of " + handValue);
-		System.out.println( "---------------------");
-		System.out.println(toString());
+		System.out.println( "------------------------------------------------------");
 
 	}
 
@@ -120,11 +117,16 @@ public class Player implements Person
 	 */
 	private void checkAce()
 	{
-		for ( Card aHand : hand ) {
-			if ( aHand.getVal() == 1 && handValue + 10 <= 21 ) {
-				aHand.setVal( 11 );
+		if ( !(hand.get(0).getVal() == 1 && hand.get(1).getVal() == 1) ) {
+			for (Card aHand : hand) {
+				if (aHand.getVal() == 1 && handValue + 10 <= 21) {
+					aHand.setVal(11);
+				}
 			}
+		} else if (hand.get(0).getVal() == 1 && hand.get(1).getVal() == 1) {
+			hand.get(1).setVal(11);
 		}
+
 		setHandValue( hand );
 	}
 	

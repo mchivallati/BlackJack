@@ -36,8 +36,6 @@ public class Dealer implements Person
 		this.hand.add( deck.get(0) );
 		deck.remove(0);
 
-		System.out.println("There are " + deck.size() + " cards left");
-
 	}
 
 	/** OBJECT METHOD
@@ -49,7 +47,6 @@ public class Dealer implements Person
 		for ( Card aHand : hand ) {
 			deck.add( aHand );
 		}
-		System.out.println("There are " + deck.size() + " cards left");
 	}
 
 	/** OBJECT METHOD
@@ -99,11 +96,13 @@ public class Dealer implements Person
 	@Override
 	public void stay()
 	{
-		System.out.println();
-		System.out.println("-----------DEALER----------");
-		System.out.println("The dealer has elected to stay");
-		System.out.println("---------------------");
-		System.out.println();
+		if (!this.isBust()) {
+			System.out.println();
+			System.out.println("-----------DEALER----------");
+			System.out.println("The dealer has elected to stay");
+			System.out.println("---------------------");
+			System.out.println();
+		}
 	}
 
 	/** OBJECT METHOD
@@ -154,5 +153,8 @@ public class Dealer implements Person
 		return temp;
 
 	}
+
+	public String showCard() { return hand.get(1).toString(); }
+
 
 }

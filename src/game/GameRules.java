@@ -14,11 +14,8 @@ import java.util.Scanner;
 public class GameRules
 {
 
-	public static boolean dealerWin = false;
-	public static boolean playerWin = false;
-
 	//TEMPORARY TEST RUNNER
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 		do {
 			Deck deck = new Deck();
@@ -55,7 +52,7 @@ public class GameRules
 		System.out.println("YOU CANT STOP PLAYING YOU HEATHEN");
 		System.out.println("Thanks for playing, don't forget to tip your dev!");
 
-	}
+	}*/
 
 	/** USED ONLY IN GAMERULES.JAVA
 	 * @param dealer            Dealer the dealer
@@ -65,7 +62,7 @@ public class GameRules
 	private static boolean isHigher(Dealer dealer , Player player)
 	{
 
-		return dealer.getHandValue() >= player.getHandValue();
+		return dealer.getHandValue() > player.getHandValue();
 
 	}
 
@@ -76,109 +73,48 @@ public class GameRules
 	 */
 	public static void checkRules( Dealer dealer , Player player)
 	{
-		if ( isHigher( dealer, player ) ) {
-			dealerWin = true;
-			playerWin = false;
-		} else if ( !isHigher( dealer, player ) ) {
-			playerWin = true;
-			dealerWin = false;
-		}
 
-		if (dealer.isBust() && player.isBust()) {
-			System.out.println("You both lose");
-			dealerWin = false;
-			playerWin = false;
-		}
-		if ( dealer.isBust() && !player.isBust() ) {
-			dealerWin = false;
-			playerWin = true;
-			System.out.println("The dealer busted");
-		} else if (player.isBust() && !dealer.isBust()) {
-			playerWin = false;
-			dealerWin = true;
-			System.out.println("You busted");
-		}
-	}
-
-	/**
-	 * @param p                 Player the player being asked
-	 */
-	public static void askAction(Player p , Deck d)
-	{
-
-		Scanner scan = new Scanner(System.in);
-		System.out.print("Do you want to hit or stay? H/S: ");
-		String input = scan.nextLine();
-		takeAction(input , p , d.getDeck());
-	}
-
-
-	/**
-	 * @return                  boolean true if the player wants to continue playing
-	 */
-	public static boolean askToReplay()
-	{
-
-		Scanner scan = new Scanner(System.in);
-		System.out.print( "Do you want to play another hand? Y/N:" );
-		String input = scan.nextLine();
-		return input.equalsIgnoreCase( "Y" );
-
-	}
-
-	/**
-	 * @param input             String can only be H or S
-	 * @param p                 Player the player that is being asked
-	 * @param deck              ArrayList<Card> the game deck
-	 */
-	public static void takeAction(String input , Player p , ArrayList<Card> deck)
-	{
-
-		while ( ! input.toUpperCase().equals( "H" ) && ! input.toUpperCase().equals( "S" ) ) {
-			System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-			System.out.println( "Oops! You entered in a wrong letter. HINT: enter H for hit and S for stay" );
-			System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-
-			Scanner scan = new Scanner(System.in);
-			System.out.print("Do you want to hit or stay? H/S: ");
-			input = scan.nextLine();
-		}
-		
-		if ( input.toUpperCase().equals( "H" ) ) {
-			p.hit( deck );
-		}
-		if ( input.toUpperCase().equals( "S" ) ) {
-			p.stay();
-		}
-
-		Scanner finish = new Scanner( System.in );
-		String userIn = "";
-		if (!p.isBust() && !input.equalsIgnoreCase("S")) {
-			System.out.print( "Hit again? Y/N: " );
-			userIn = finish.nextLine();
-		}
-
-		while (userIn.equalsIgnoreCase("Y")) {
-			if ( input.toUpperCase().equals( "H" ) ) {
-				p.hit( deck );
-			}
-
-			if ( input.toUpperCase().equals( "S" ) ) {
-				p.stay();
-			}
-
-			if ( ! input.toUpperCase().equals( "H" ) && ! input.toUpperCase().equals( "S" ) ) {
-				System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-				System.out.println( "Oops! You entered in a wrong letter. HINT: enter H for hit and S for stay" );
-				System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-			}
-
-				System.out.print( "Hit again? Y/N: " );
-				userIn = finish.nextLine();
-
-		}
-
-
+		if (player.isBust() && !dealer.isBust()) {
+            System.out.println();
+            System.out.println(" :( YOU BUSTED, THE DEALER WINS :(");
+            System.out.println();
+            System.out.println(dealer.toString());
+        } else if (dealer.isBust() && !player.isBust()) {
+            System.out.println();
+            System.out.println(" :) THE DEALER BUSTED, YOU WIN :)");
+            System.out.println();
+            System.out.println(dealer.toString());
+            System.out.println();
+            System.out.println(player.toString());
+        } else if (player.isBust() && dealer.isBust()) {
+            System.out.println();
+            System.out.println(" :| YOU BOTH BUSTED, NO ONE WINS :|");
+            System.out.println();
+            System.out.println(dealer.toString());
+            System.out.println();
+            System.out.println(player.toString());
+        } else if (player.getHandValue() == dealer.getHandValue()) {
+            System.out.println();
+            System.out.println(" :| ITS A TIE :|");
+            System.out.println();
+            System.out.println(dealer.toString());
+            System.out.println();
+            System.out.println(player.toString());
+        } else if ( isHigher( dealer, player ) ) {
+            System.out.println();
+            System.out.println(" :( THE DEALER BEAT YOU, YOU LOSE :(");
+            System.out.println();
+            System.out.println(dealer.toString());
+            System.out.println();
+            System.out.println(player.toString());
+        } else if ( !isHigher( dealer, player ) ) {
+            System.out.println();
+            System.out.println(" :) YOU BEAT THE DEALER, YOU WIN :)");
+            System.out.println();
+            System.out.println(dealer.toString());
+            System.out.println();
+            System.out.println(player.toString());
+        }
 	}
 
 }
