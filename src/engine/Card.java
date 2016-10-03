@@ -34,7 +34,7 @@ public class Card
 	 * @param rank      String card rank
 	 * @param val       int card point value
 	 */
-	public Card(String suit , String rank , int val) //main constructor
+	Card(String suit, String rank, int val) //main constructor
 	{
 
 		this.suit = suit;

@@ -117,17 +117,43 @@ public class Player implements Person
 	 */
 	private void checkAce()
 	{
-		if ( !(hand.get(0).getVal() == 1 && hand.get(1).getVal() == 1) ) {
-			for (Card aHand : hand) {
-				if (aHand.getVal() == 1 && handValue + 10 <= 21) {
-					aHand.setVal(11);
+
+		int aceCounter = 0;
+
+		for (Card aCard : hand) {																						//counts how many aces are in the players hand
+			if (aCard.getVal() == 1  ^ aCard.getVal() == 11) {
+				aceCounter += 1;
+			}
+		}
+
+		if ( aceCounter == 1) {
+			//If there is only one ace in the player's hand, this element checks if the value of 11 makes the player bust. If is does, it sets the value of the ace to 1
+			for (Card aCard : hand) {
+				if ((aCard.getVal() == 1 ^ aCard.getVal() == 11) && handValue + 10 <= 21) {
+					aCard.setVal(11);
+				} else if (aCard.getVal() == 11) {
+
+					aCard.setVal(1);
 				}
 			}
-		} else if (hand.get(0).getVal() == 1 && hand.get(1).getVal() == 1) {
-			hand.get(1).setVal(11);
+		} else if ( aceCounter > 1) {																					//If there is more than one ace in the player's hand,
+			for (int i = 0 ; i < hand.size() ; i++) {
+				if ((hand.get(i).getVal() == 1 ^ hand.get(i).getVal() == 11) && i == 0 && handValue + 10 <= 21) {
+					hand.get(i).setVal(11);
+				} else if ((hand.get(i).getVal() == 1 ^ hand.get(i).getVal() == 11) && i == 0 && handValue + 10 > 21) {
+					hand.get(i).setVal(1);
+				} else if ((hand.get(i).getVal() == 1 ^ hand.get(i).getVal() == 11) && i > 0 && handValue + (i * 10) <= 21) {
+					hand.get(i).setVal(11);
+				} else if ((hand.get(i).getVal() == 1 ^ hand.get(i).getVal() == 11) && i > 0 && handValue + (i * 10) > 21) {
+					hand.get(i).setVal(1);
+				}
+
+				setHandValue( hand );
+			}
 		}
 
 		setHandValue( hand );
+
 	}
 	
 	@Override
