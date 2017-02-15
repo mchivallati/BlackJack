@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Deck
 {
 
-	private ArrayList<Card> deck = new ArrayList<Card>();
+	private ArrayList<Card> deck = new ArrayList<>();
 
 	/**
 	 * DEFAULT CONSTRUCTOR
@@ -26,7 +26,7 @@ public class Deck
 	/**
 	 * ONLY USED IN DECK.JAVA
 	 */
-	public void addSpades( )
+	private void addSpades()
 	{
 
 		int val = 1;
@@ -49,7 +49,7 @@ public class Deck
 	/**
 	 * ONLY USED IN DECK.JAVA
 	 */
-	public void addClubs( )
+	private void addClubs()
 	{
 
 		int val = 1;
@@ -72,7 +72,7 @@ public class Deck
 	/**
 	 * ONLY USED IN DECK.JAVA
 	 */
-	public void addHearts( )
+	private void addHearts()
 	{
 
 		int val = 1;
@@ -95,7 +95,7 @@ public class Deck
 	/**
 	 * ONLY USED IN DECK.JAVA
 	 */
-	public void addDiamonds( )
+	private void addDiamonds()
 	{
 
 		int val = 1;
@@ -119,7 +119,7 @@ public class Deck
 	 * @param i             int value to be checked
 	 * @return              String card rank
 	 */
-	public String checkRank( int i ) //only to be used with the add*SuitName* methods // i < 13
+	private String checkRank( int i ) //only to be used with the add*SuitName* methods // i < 13
 	{
 
 		if ( i == 0 )
@@ -212,7 +212,7 @@ public class Deck
 	/**
 	 * OBJECT METHOD
 	 */
-	public void printDeck( )
+	void printDeck()
 	{
 
 		for ( Card aDeck : deck )
@@ -228,7 +228,7 @@ public class Deck
 	 * @param i             int first card location
 	 * @param k             int second card location
 	 */
-	public void swap( int i, int k )
+	private void swap( int i, int k )
 	{
 
 		Card temp = new Card( deck.get( i ).getSuit(), deck.get( i ).getRank(), deck.get( i ).getVal() );

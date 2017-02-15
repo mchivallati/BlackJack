@@ -1,59 +1,14 @@
 package game;
 
-import engine.Card;
 import engine.Dealer;
-import engine.Deck;
 import engine.Player;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  *  Created by chiv on 10/12/2015. Class created to specify the rules of the gae using class methods
  */
-public class GameRules
+class GameRules
 {
-
-	//TEMPORARY TEST RUNNER
-	/*public static void main(String[] args)
-	{
-		do {
-			Deck deck = new Deck();
-			deck.shuffleDeck( 1000 );
-			System.out.println( "!----------Start of Hand----------!" );
-			//System.out.println( "Dealer" );
-			Dealer d = new Dealer( deck.getDeck() );
-			//System.out.println( d.toString() );
-			System.out.println();
-			System.out.println( "Player" );
-			System.out.println();
-			Player p = new Player( deck.getDeck() );
-			System.out.println( p.toString() );
-			System.out.println();
-
-			d.useDealerAI( deck );
-			askAction( p, deck );
-
-			checkRules( d , p );
-
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~RESULTS~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println();
-			System.out.println( "Dealer Won: " + dealerWin );
-			System.out.println(d.toString());
-			System.out.println();
-			System.out.println( "Player Won: " + playerWin );
-			System.out.println(p.toString());
-			System.out.println();
-			System.out.println( "!----------End of Hand----------!" );
-			System.out.println();
-		} while (askToReplay());
-
-		System.out.println();
-		System.out.println("YOU CANT STOP PLAYING YOU HEATHEN");
-		System.out.println("Thanks for playing, don't forget to tip your dev!");
-
-	}*/
-
+	
 	/** USED ONLY IN GAMERULES.JAVA
 	 * @param dealer            Dealer the dealer
 	 * @param player            Player the player
@@ -71,7 +26,7 @@ public class GameRules
 	 * @param dealer            Dealer the dealer
 	 * @param player            PLayer the player
 	 */
-	public static void checkRules( Dealer dealer , Player player)
+	static void checkRules( Dealer dealer, Player player )
 	{
 
 		if (player.isBust() && !dealer.isBust()) {

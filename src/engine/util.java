@@ -3,7 +3,7 @@ package engine;
 /**
  *  Created by Matthew Chivallati on 9/9/2015.
  */
-public class util
+class util
 {
 
 	//---------- Random Number Method ---------//
@@ -12,9 +12,9 @@ public class util
 	/**
 	 * @param min           int minimum bound
 	 * @param max           int maximum bound
-	 * @return              int pseudorandom value within the given range
+	 * @return              int pseudo-random value within the given range
 	 */
-	public static int randomInt( int min, int max )
+	static int randomInt( int min, int max )
 	{
 
 		int range = ( max + 1 ) - min;

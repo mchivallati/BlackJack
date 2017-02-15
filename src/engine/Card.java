@@ -1,12 +1,5 @@
 package engine;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 /**
  *  Created by Matthew Chivallati on 9/9/2015.
  */
@@ -46,17 +39,17 @@ public class Card
 	/** OBJECT METHOD
 	 * @return          String card suit
 	 */
-	public String getSuit() {return this.suit;}
+	String getSuit() {return this.suit;}
 
 	/** OBJECT METHOD
 	 * @return          String card rank
 	 */
-	public String getRank() {return this.rank;}
+	String getRank() {return this.rank;}
 
 	/** OBJECT METHOD
 	 * @return          int card point value
 	 */
-	public int getVal() {return this.val;}
+	int getVal() {return this.val;}
 
 	/**
 	 * @param rank      String card rank
@@ -83,30 +76,25 @@ public class Card
 		return rank + " of " + suit;
 
 	}
-
-	/** OBJECT METHOD
-	 * @return          String the path of the card image specific to a card
-	 */
-	public String getCardImgPath()
-	{
+	
+	//	public String getCardImgPath()
+//	{
 
 		/*Path currentRelativePath = Paths.get( "" );
 		String s = currentRelativePath.toAbsolutePath().toString();
 
 		System.out.println( s );*/
 
-		return System.getProperty( "user.dir" ) + "/images/" + val + "_of_" + suit.toLowerCase() + ".png";
+		//return System.getProperty( "user.dir" ) + "\images\" + val + "_of_" + suit.toLowerCase() + ".png";
+		
+//		return "../../images/" + val + "_of_" + suit.toLowerCase() + ".png";
 
-	}
+//	}
 
 
-	/** OBJECT METHOD
-	 * @return          BufferedImage for the card
-	 */
-	public BufferedImage getCardImg()
+	/*public BufferedImage getCardImg()
 	{
 		//System.out.println(getCardImgPath());
-
 		BufferedImage cardImg = null;
 		try {
 			cardImg = ImageIO.read( new File( getCardImgPath() ) );
@@ -121,6 +109,6 @@ public class Card
 
 		return cardImg;
 
-	}
+	}*/
 
 }

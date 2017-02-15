@@ -15,32 +15,45 @@ public class GameRunner
 
     public static void main(String[] args)
     {
+    
+        Deck deck = new Deck();
+        deck.shuffleDeck( 1000 );
+        
+        doGameSequence( deck );
+        
         do {
-            Deck deck = new Deck();
-            deck.shuffleDeck( 1000 );
-            System.out.println( "!----------Start of Hand----------!" );
-            System.out.println();
-            System.out.println( "Dealer" );
-            Dealer d = new Dealer( deck.getDeck() );
-            System.out.println( d.showCard() );
-            System.out.println();
-            System.out.println( "Player" );
-            Player p = new Player( deck.getDeck() );
-            System.out.println( p.toString() );
-            System.out.println();
+            doGameSequence( deck );
+        }
+        while (askToReplay());
 
-            askAction( p, deck );
-            if (!p.isBust()) {
-                d.useDealerAI(deck);
-            }
-
-            GameRules.checkRules( d , p );
-
-            System.out.println();
-            System.out.println("END OF HAND");
-
-        } while (askToReplay());
-
+    }
+    
+    private static void doGameSequence( Deck deck)
+    {
+        
+        System.out.println( "!----------Start of Hand----------!" );
+        System.out.println();
+        System.out.println( "Dealer" );
+        Dealer d = new Dealer( deck.getDeck() );
+        System.out.println( d.showCard() );
+        System.out.println();
+        System.out.println( "Player" );
+        Player p = new Player( deck.getDeck() );
+        System.out.println( p.toString() );
+        System.out.println();
+    
+        askAction( p, deck );
+        if (!p.isBust()) {
+            d.useDealerAI(deck);
+        }
+    
+        GameRules.checkRules( d , p );
+    
+        System.out.println();
+        System.out.println("END OF HAND");
+        p.returnCardsToDeck( deck.getDeck() );
+        d.returnCardsToDeck( deck.getDeck() );
+        
     }
 
     /**
@@ -87,8 +100,8 @@ public class GameRunner
     }
 
 
-    /**
-     * @param input             String can only be H or S
+    /*
+      @param input             String can only be H or S
      * @param p                 Player the player that is being asked
      * @param deck              ArrayList<Card> the game deck
      *                          Method is called by the askAction() method
