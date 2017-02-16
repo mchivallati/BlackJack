@@ -261,7 +261,7 @@ public class Deck
 	}
 
 	/** OBJECT METHOD
-	 * @return              returns the ArrayList<Card> to use in the game
+	 * @return              returns the ArrayList(Card) to use in the game
 	 */
 	public ArrayList<Card> getDeck() {return this.deck;}
 

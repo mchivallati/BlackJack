@@ -12,7 +12,10 @@ import java.util.Scanner;
  */
 public class GameRunner
 {
-
+    
+    /**
+     * @param args          String[] command line arguments
+     */
     public static void main(String[] args)
     {
     
@@ -28,6 +31,9 @@ public class GameRunner
 
     }
     
+    /**
+     * @param deck          Deck the game deck
+     */
     private static void doGameSequence( Deck deck)
     {
         
@@ -89,6 +95,7 @@ public class GameRunner
 
     /**
      * @param p                 Player the player being asked
+     * @param d                 Deck the game deck
      */
     private static void askAction(Player p, Deck d) //Asks if the player wants to hit or stay
     {
@@ -99,75 +106,10 @@ public class GameRunner
         takeAction(input , p , d.getDeck());
     }
 
-
-    /*
-      @param input             String can only be H or S
-     * @param p                 Player the player that is being asked
-     * @param deck              ArrayList<Card> the game deck
-     *                          Method is called by the askAction() method
-     */
-    /*private static void takeAction(String input, Player p, ArrayList<Card> deck)                                        //The method that generates the scanner objects and inputs for the player (NEEDS TO BE OPTIMIZED/MAKE METHOD IN ONE OUTER LOOP)
-    {
-
-        while ( ! input.toUpperCase().equals( "H" ) && ! input.toUpperCase().equals( "S" ) ) {                          //If the player inputs a wrong string, this dialogue will loop until the player inputs a correct string
-            System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-            System.out.println( " Oops! You entered in a wrong letter. HINT: enter H for hit and S for stay" );
-            System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-
-            Scanner scan = new Scanner(System.in);
-            System.out.print("Do you want to hit or stay? H/S: ");
-            input = scan.nextLine();
-        }
-
-        if ( input.toUpperCase().equals( "H" ) ) {                                                                      //If the player wants to hit, the hit() Player object method is called
-            p.hit( deck );
-        }
-        if ( input.toUpperCase().equals( "S" ) ) {                                                                      //If the player wants to stay, the stay() Player object method is called
-            p.stay();
-        }
-
-        Scanner finish = new Scanner( System.in );                                                                      //Second scanner object for second dialogue
-        String userIn = "";
-
-        while (!userIn.equalsIgnoreCase("H") && !userIn.equalsIgnoreCase("S")) {                                        //Asks if the player wants to hit or stay again
-
-            if (!p.isBust() && !input.equalsIgnoreCase("S")) {
-                System.out.print("Do you want to hit or stay? H/S: ");
-                userIn = finish.nextLine();
-            }
-        }
-
-        while (userIn.equalsIgnoreCase("H")) {
-
-            if (userIn.equalsIgnoreCase("H")) {
-                input = "H";
-            } else if (userIn.equalsIgnoreCase("S")) {
-                input = "S";
-            }
-
-            if ( input.toUpperCase().equals( "H" ) ) {
-                p.hit( deck );
-            } else if ( input.toUpperCase().equals( "S" ) ) {
-                p.stay();
-            }
-
-            if ( ! input.toUpperCase().equals( "H" ) && ! input.toUpperCase().equals( "S" ) ) {
-                System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-                System.out.println( "Oops! You entered in a wrong letter. HINT: enter H for hit and S for stay" );
-                System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
-            }
-
-            System.out.print("Do you want to hit or stay? H/S: ");
-            userIn = finish.nextLine();
-
-        }
-
-    }*/
-
     /**
      * @param input             String can only be H or S
      * @param p                 Player the player that is being asked
-     * @param deck              ArrayList<Card> the game deck
+     * @param deck              ArrayList(Card) the game deck
      *                          Method is called by the askAction() method
      */
     private static void takeAction(String input , Player p , ArrayList<Card> deck)

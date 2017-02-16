@@ -7,13 +7,41 @@ import java.util.ArrayList;
  */
 public class Player extends Person
 {
-
+	
+	public static void main(String[] args)
+	{
+		
+		//testing new purse attribute and chip objects
+		Player p = new Player();
+		p.printPurse();
+		System.out.println( p.getPurseTotal() );
+		
+		
+	}
+	
+	/**
+	 * the total amount of money a player has to bet
+	 */
+	private ArrayList<Chip> purse = new ArrayList<Chip>();
+	private int purseTotal;
+	private int currentBet;
+	
+	public Player()
+	{
+		
+		initPurse();
+		setPurseTotal();
+		
+	}
+	
 	/** CONSTRUCTOR
-	 * @param deck          ArrayList<Card> game deck
+	 * @param deck          ArrayList(Card) game deck
 	 */
 	public Player(ArrayList<Card> deck)
 	{
 		
+		initPurse();
+		setPurseTotal();
 		initHand(deck);
 		setHandValue( hand );
 		checkAce();
@@ -21,7 +49,7 @@ public class Player extends Person
 	}
 
 	/** OBJECT METHOD
-	 * @param hand          ArrayList<Card> the persons hand
+	 * @param hand          ArrayList(Card) the persons hand
 	 */
 	public void setHandValue( ArrayList<Card> hand )
 	{
@@ -32,9 +60,13 @@ public class Player extends Person
 		}
 		
 	}
+	
+	public int getCurrentBet() { return this.currentBet; }
+	
+	public void setCurrentBet( int bet ) {}
 
 	/** OBJECT METHOD
-	 * @param deck          ArrayList<Card> game deck
+	 * @param deck          ArrayList(Card) game deck
 	 */
 	@Override
 	public void hit( ArrayList<Card> deck )
@@ -63,5 +95,47 @@ public class Player extends Person
 		System.out.println( "------------------------------------------------------");
 
 	}
+	
+	/** OBJECT METHOD - "getter" for the purse attribute
+	 * @return			ArrayList(Chip) the purse of the player
+	 */
+	public ArrayList<Chip> getPurse() { return this.purse; }
+	
+	/**
+	 * ONLY USED IN CONSTRUCTOR - creates a default starting purse that all player start with
+	 */
+	private void initPurse()
+	{
+		
+		this.purse.add( new Chip(50) );
+		this.purse.add( new Chip(50) );
+		this.purse.add( new Chip(25) );
+		this.purse.add( new Chip(25) );
+		this.purse.add( new Chip(10) );
+		this.purse.add( new Chip(10) );
+		this.purse.add( new Chip(10) );
+		this.purse.add( new Chip(5) );
+		this.purse.add( new Chip(5) );
+		this.purse.add( new Chip(5) );
+		this.purse.add( new Chip(5) );
+		
+		setPurseTotal();
+		
+	}
+	
+	public int getPurseTotal() { return this.purseTotal; }
+	
+	public void printPurse()
+	{
+		
+		for ( Chip aPurse : this.purse ) {
+			
+			System.out.println( aPurse.toString() );
+			
+		}
+		
+	}
+	
+	private void setPurseTotal() { this.purseTotal = util.sumOfArray( this.purse ); }
 	
 }

@@ -12,7 +12,7 @@ abstract class Person
 	int handValue;
 
 	/**
-	 * @param deck          ArrayList<Card> game deck
+	 * @param deck          ArrayList(Card) game deck
 	 */
 	void initHand( ArrayList<Card> deck )
 	{
@@ -25,7 +25,7 @@ abstract class Person
 	}
 
 	/**
-	 * @param deck          ArrayList<Card> game deck
+	 * @param deck          ArrayList(Card) game deck
 	 */
 	public void returnCardsToDeck( ArrayList<Card> deck )
 	{
@@ -39,7 +39,7 @@ abstract class Person
 	
 	
 	/** OBJECT METHOD
-	 * @param hand          ArrayList<Card> the persons hand
+	 * @param hand          ArrayList(Card) the persons hand
 	 */
 	void setHandValue( ArrayList<Card> hand )
 	{
@@ -51,7 +51,7 @@ abstract class Person
 	}
 	
 	/** OBJECT METHOD
-	 * @return              ArrayList<Card> the hand of the dealer
+	 * @return              ArrayList(Card) the hand of the dealer
 	 */
 	public ArrayList<Card> getHand() { return this.hand; }
 	
@@ -117,7 +117,7 @@ abstract class Person
 	}
 
 	/**
-	 * @param deck          ArrayList<Card> game deck
+	 * @param deck          ArrayList(Card) game deck
 	 */
 	abstract void hit( ArrayList<Card> deck );
 	
