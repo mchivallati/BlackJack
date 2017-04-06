@@ -50,7 +50,9 @@ public class GameGUI extends Application {
 	
 	private boolean playAsPlayer;
 	
-	/** <p><b>This is the main running method for the GUI. All GUI creation ultimately is called into this method to create my "stunning" GUI.</b></p>
+	/**
+	 * <p><b>This is the main running method for the GUI. All GUI creation ultimately is called into this method to create my "stunning" GUI.</b></p>
+	 *
 	 * @param primaryStage <i>required</i>
 	 * @throws Exception <i>required</i>
 	 */
@@ -78,27 +80,27 @@ public class GameGUI extends Application {
 		menuGrid.setHgap( 5 );
 		
 		//ai selection button
-		Button aiBtn = new Button("Play with AI");
-		aiBtn.setOnAction( e ->  {
+		Button aiBtn = new Button( "Play with AI" );
+		aiBtn.setOnAction( e -> {
 			playAsPlayer = false;
-			menu.getChildren().add( new Label("this is working"));
+			menu.getChildren().add( new Label( "this is working" ) );
 			menu.setVisible( false );
 			pane.setVisible( true );
-			aiGameSequence( pane , gameScene );
-		}  );
-		
-		//player selection button
-		Button playerBtn = new Button("Play as Player");
-		playerBtn.setOnAction( e -> {
-			playAsPlayer = true;
-			menu.getChildren().add( new Label("this is working"));
-			menu.setVisible( false );
-			pane.setVisible( true );
-			playerGameSequence( pane , gameScene );
+			aiGameSequence( pane, gameScene );
 		} );
 		
-		menuGrid.add( aiBtn , 0 , 0 );
-		menuGrid.add( playerBtn , 1 , 0 );
+		//player selection button
+		Button playerBtn = new Button( "Play as Player" );
+		playerBtn.setOnAction( e -> {
+			playAsPlayer = true;
+			menu.getChildren().add( new Label( "this is working" ) );
+			menu.setVisible( false );
+			pane.setVisible( true );
+			playerGameSequence( pane, gameScene );
+		} );
+		
+		menuGrid.add( aiBtn, 0, 0 );
+		menuGrid.add( playerBtn, 1, 0 );
 		menuGrid.setAlignment( Pos.CENTER );
 		
 		menu.setCenter( menuGrid );
@@ -109,12 +111,12 @@ public class GameGUI extends Application {
 		Button exit = new Button( "Exit" );
 		exit.getStyleClass().add( "exit" );
 		exit.setMinWidth( 100 );
-		stack.setAlignment( exit , Pos.TOP_RIGHT );
+		stack.setAlignment( exit, Pos.TOP_RIGHT );
 		exit.setOnAction( e -> Platform.exit() );
 		
 		//Fullscreen Button
 		Button fullscreenBtn = new Button( "Fullscreen" );
-		stack.setAlignment( fullscreenBtn , Pos.TOP_LEFT );
+		stack.setAlignment( fullscreenBtn, Pos.TOP_LEFT );
 		fullscreenBtn.setOnAction( e -> fullscreen( primaryStage, pane, fullscreenBtn ) );
 		
 		/*-THE TEXT AREA THAT SHOWS THE RESULTS-*///------------------------------------------------------------------------------------------//
@@ -124,12 +126,12 @@ public class GameGUI extends Application {
 		textArea.getStyleClass().add( "text-area" );
 			
 		/*-FINAL ADDITIONS AND DISPLAYS THE PRIMARY STAGE-*///-------------------------------------------------------------------------------------//
-			
+		
 		//adds the grids to the pane
 		pane.getChildren().add( dealerCardGrid );
 		pane.getChildren().add( playerCardGrid );
 		
-		stack.getChildren().addAll( menu , pane , exit );
+		stack.getChildren().addAll( menu, pane, exit );
 		
 		primaryStage.setTitle( "BlackJack" );
 		primaryStage.setScene( gameScene );
@@ -141,7 +143,8 @@ public class GameGUI extends Application {
 	
 	/**
 	 * <p>Main method in case some IDEs do not support the JavaFX start method as a execution point</p>
-	 * @param args		inputted console params <i>*not used*</i>
+	 *
+	 * @param args inputted console params <i>*not used*</i>
 	 */
 	public static void main( String[] args ) {
 		
@@ -156,14 +159,15 @@ public class GameGUI extends Application {
 	 * is called inside the event handler for the <code>playerBtn</code> button inside
 	 * the menu border pane <i>*see line 84*</i>.
 	 * </p>
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param pane      The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param gameScene The root scene.
 	 */
-	private void playerGameSequence( Pane pane , Scene gameScene ) {
+	private void playerGameSequence( Pane pane, Scene gameScene ) {
 		Deck deck = new Deck();
 		deck.shuffleDeck( 1000 );
 		Dealer d = new Dealer( deck.getDeck() );
-		System.out.println("doing the player game sequence");
+		System.out.println( "doing the player game sequence" );
 		Player p = new Player( deck.getDeck() );
 		askForBet( p, d, pane, gameScene );
 		
@@ -187,14 +191,15 @@ public class GameGUI extends Application {
 	 * as no bet enter text field. This method is called inside the <code>aiBtn</code> event
 	 * handler <i>*see line 75*</i>
 	 * </p>
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param pane      The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param gameScene The root scene.
 	 */
-	private void aiGameSequence( Pane pane , Scene gameScene ) {
+	private void aiGameSequence( Pane pane, Scene gameScene ) {
 		Deck deck = new Deck();
 		deck.shuffleDeck( 1000 );
 		Dealer d = new Dealer( deck.getDeck() );
-		System.out.println("doing the ai game sequence");
+		System.out.println( "doing the ai game sequence" );
 		CardCountingAI ai = new CardCountingAI( deck.getDeck() );
 		ai.setBet( d );
 		showCards( ai, d, gameScene );
@@ -215,7 +220,8 @@ public class GameGUI extends Application {
 	 * <code>useDealerAI(Deck d)</code> implemented in Dealer.java. It is called in both the
 	 * game sequences for the ai and player.
 	 * </p>
-	 * @param d The dealer who will be performing actions.
+	 *
+	 * @param d    The dealer who will be performing actions.
 	 * @param deck The deck that the game is currently playing with.
 	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
 	 */
@@ -238,13 +244,13 @@ public class GameGUI extends Application {
 	 * <code>doAction(Deck deck)</code> method implemented in CountingCardAI.java. It is called in the
 	 * game sequences for the ai.
 	 * </p>
-	 * @see engine.CardCountingAI
-	 * @param ai The ai that is playing while counting cards.
+	 *
+	 * @param ai   The ai that is playing while counting cards.
 	 * @param deck The deck that the game is currently playing with.
 	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 * @see engine.CardCountingAI
 	 */
-	private void countCardsAI( CardCountingAI ai , Deck deck, Pane pane)
-	{
+	private void countCardsAI( CardCountingAI ai, Deck deck, Pane pane ) {
 		
 		ai.doAction( deck );
 		dealerCardGrid.add( new ImageView( new Image( "images/" + ai.getHand().get( 1 ).getRank() + "_of_" + ai.getHand().get( 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), 1, 0 );
@@ -262,11 +268,12 @@ public class GameGUI extends Application {
 	 * This method creates an HBox on the bottom of the screen filled with the hit button and
 	 * stay button. It allows the player to interact and play the game.
 	 * </p>
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param pane  The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param scene The root scene.
-	 * @param p The player that will be playing blackjack.
-	 * @param d The dealer who will be performing actions.
-	 * @param deck The deck that the game is currently playing with.
+	 * @param p     The player that will be playing blackjack.
+	 * @param d     The dealer who will be performing actions.
+	 * @param deck  The deck that the game is currently playing with.
 	 */
 	private void actionBar( Pane pane, Scene scene, Player p, Dealer d, Deck deck ) {
 		
@@ -297,9 +304,10 @@ public class GameGUI extends Application {
 	 * area displaying an error message. The bet area will still appear until the player has
 	 * entered a bet.
 	 * </p>
-	 * @param p The player that will be playing blackjack.
-	 * @param d The dealer who will be performing actions.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param p     The player that will be playing blackjack.
+	 * @param d     The dealer who will be performing actions.
+	 * @param pane  The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param scene The root scene.
 	 */
 	private void askForBet( Player p, Dealer d, Pane pane, Scene scene ) {
@@ -345,13 +353,14 @@ public class GameGUI extends Application {
 	 * gets their respective cards currently in their hands. This is accomplish by naming the images
 	 * in the <code>src/images</code> folder. The images of the cards are named using the following
 	 * convention:
-	 *
-	 *     <i>cardsRank</i>_of_<i>cardsSuit</i>.png
-	 *     For example the Ace of Spades card's image name would be "Ace_of_Spades.png"
-	 *
+	 * <p>
+	 * <i>cardsRank</i>_of_<i>cardsSuit</i>.png
+	 * For example the Ace of Spades card's image name would be "Ace_of_Spades.png"
+	 * <p>
 	 * </p>
-	 * @param p The player that will be playing blackjack.
-	 * @param d The dealer who will be performing actions.
+	 *
+	 * @param p     The player that will be playing blackjack.
+	 * @param d     The dealer who will be performing actions.
 	 * @param scene The root scene.
 	 */
 	private void showCards( Player p, Dealer d, Scene scene ) {
@@ -393,6 +402,7 @@ public class GameGUI extends Application {
 	 * their hand. The method is only called directly after the player hits, so there is only a need
 	 * to add the newest card added to the player's hand.
 	 * </p>
+	 *
 	 * @param p The player that will be playing blackjack.
 	 */
 	private void refreshPlayerCards( Player p ) //Only called after the player hits
@@ -410,6 +420,7 @@ public class GameGUI extends Application {
 	 * updates the dealer's displayed cards instead of the player's. It is also only called directly
 	 * after the dealer hits.
 	 * </p>
+	 *
 	 * @param d The dealer who will be performing actions.
 	 */
 	private void refreshDealerCards( Dealer d ) //Only called after the dealer hits
@@ -426,8 +437,9 @@ public class GameGUI extends Application {
 	 * Checks to see of the player has black jack or when the first two cards the player is dealt add
 	 * up tp 21.
 	 * </p>
+	 *
 	 * @param player The player that will be playing blackjack.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 * @param pane   The main pane used for the game. Contains all the cards and other main nodes.
 	 */
 	private void checkBlackjack( Player player, Pane pane ) {
 		
@@ -445,8 +457,9 @@ public class GameGUI extends Application {
 	 * method checks to see who won and lost the hand. It also accounts of rif there is a tie between
 	 * the player and dealer.
 	 * </p>
-	 * @param dealer The dealer who will be performing actions.
-	 * @param player The player that will be playing blackjack.
+	 *
+	 * @param dealer   The dealer who will be performing actions.
+	 * @param player   The player that will be playing blackjack.
 	 * @param textArea The text area where the result of the hand are shown.
 	 */
 	private void checkRules( Dealer dealer, Player player, Pane textArea ) {
@@ -472,13 +485,15 @@ public class GameGUI extends Application {
 	
 	//Handlers
 	
-	/** <b>EVENT HANDLER</b>
+	/**
+	 * <b>EVENT HANDLER</b>
 	 * <p>
 	 * This method is the event handler for the fullscreen button. When clicked, the primary stage
 	 * will become fullscreen.
 	 * </p>
-	 * @param primaryStage The main stage object used in the GUI.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param primaryStage  The main stage object used in the GUI.
+	 * @param pane          The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param fullscreenBtn The fullscreen button on the top left of the screen.
 	 */
 	private void fullscreen( Stage primaryStage, Pane pane, Button fullscreenBtn ) {
@@ -488,12 +503,14 @@ public class GameGUI extends Application {
 		
 	}
 	
-	/** <b>EVENT HANDLER</b>
+	/**
+	 * <b>EVENT HANDLER</b>
 	 * <p>
 	 * This method is the event handler for the hit button. When clicked, the <code>hit(Arraylist deck)</code> method
 	 * is called. A new card is added to the players hand and the displayed cards are refreshed using <code>refreshPlayerCards(Player p)</code>
 	 * </p>
-	 * @param p The player that will be playing blackjack.
+	 *
+	 * @param p    The player that will be playing blackjack.
 	 * @param deck The deck that the game is currently playing with.
 	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
 	 */
@@ -510,16 +527,18 @@ public class GameGUI extends Application {
 		
 	}
 	
-	/** <b>EVENT HANDLER</b>
+	/**
+	 * <b>EVENT HANDLER</b>
 	 * <p>
 	 * This method is the event handler for the stay button. When clicked, the action bar is set
 	 * to not visible so the player cannot perform any more actions after the game sequence
 	 * progresses.
 	 * </p>
+	 *
 	 * @param actionBar The bar on the HBox on the bottom of the screen that prompts the player to either hit or stay.
-	 * @param d The dealer who will be performing actions.
-	 * @param deck The deck that the game is currently playing with.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 * @param d         The dealer who will be performing actions.
+	 * @param deck      The deck that the game is currently playing with.
+	 * @param pane      The main pane used for the game. Contains all the cards and other main nodes.
 	 */
 	private void stayBtn( HBox actionBar, Dealer d, Deck deck, Pane pane ) {
 		
