@@ -1,3 +1,11 @@
+/*
+*
+*
+* ONLY USED FOR THE TEXT BASED VERSION
+*
+*
+*
+ */
 package game;
 
 import engine.Card;
@@ -8,7 +16,7 @@ import engine.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 /**
- * @author          Created by Matthew Chivallati on 9/9/2015.
+ * @author          Created by Matthew Chivallati
  */
 public class GameRunner
 {
@@ -21,11 +29,19 @@ public class GameRunner
     
         Deck deck = new Deck();
         deck.shuffleDeck( 1000 );
+        System.out.println();
+        System.out.println( "Dealer" );
+        Dealer d = new Dealer( deck.getDeck() );
+        System.out.println( d.showCard() );
+        System.out.println();
+        System.out.println( "Player" );
+        Player p = new Player( deck.getDeck() );
+        System.out.println();
         
-        doGameSequence( deck );
+        doGameSequence( deck , p , d );
         
         do {
-            doGameSequence( deck );
+            doGameSequence( deck , p , d );
         }
         while (askToReplay());
 
@@ -34,20 +50,17 @@ public class GameRunner
     /**
      * @param deck          Deck the game deck
      */
-    private static void doGameSequence( Deck deck)
+    private static void doGameSequence( Deck deck , Player p , Dealer d )
     {
         
         System.out.println( "!----------Start of Hand----------!" );
-        System.out.println();
-        System.out.println( "Dealer" );
-        Dealer d = new Dealer( deck.getDeck() );
-        System.out.println( d.showCard() );
-        System.out.println();
-        System.out.println( "Player" );
-        Player p = new Player( deck.getDeck() );
-        System.out.println( p.toString() );
-        System.out.println();
     
+        System.out.println("$" + p.getPurse());
+        askBet( p );
+        
+        System.out.println( d.toString() );
+        System.out.println( p.toString() );
+        
         askAction( p, deck );
         if (!p.isBust()) {
             d.useDealerAI(deck);
@@ -104,8 +117,29 @@ public class GameRunner
         System.out.print("Do you want to hit or stay? H/S: ");
         String input = scan.nextLine();
         takeAction(input , p , d.getDeck());
+        scan.close();
     }
-
+    
+    private static void askBet( Player p )
+    {
+    
+        Scanner scan = new Scanner(System.in);
+        System.out.println( "What do you want to bet? (Positive integer value): " );
+        int input = scan.nextInt();
+        
+        while ( input <= 0 && input > p.getPurse() ) {
+            System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!" );
+            System.out.println( " Oops! You entered in a wrong value. HINT: Make sure you enter a positive integer or you are not betting too much!" );
+            System.out.println( "!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!\n" );
+            System.out.println( "What do you want to bet? (Positive integer value): " );
+            input = scan.nextInt();
+        }
+        
+        p.setPurse( p.getPurse() - input );
+        p.setBet( input );
+        
+    }
+    
     /**
      * @param input             String can only be H or S
      * @param p                 Player the player that is being asked

@@ -4,7 +4,7 @@ import engine.Dealer;
 import engine.Player;
 
 /**
- *  Created by chiv on 10/12/2015. Class created to specify the rules of the gae using class methods
+ *  Created by Matthew Chivallati
  */
 class GameRules
 {
@@ -14,13 +14,50 @@ class GameRules
 	 * @param player            Player the player
 	 * @return                  boolean true if the dealers wins, false if the player wins
 	 */
-	private static boolean isHigher(Dealer dealer , Player player)
+	static boolean isHigher(Dealer dealer , Player player)
 	{
 
 		return dealer.getHandValue() > player.getHandValue();
 
 	}
-
+	
+	static void payToPlayer2( Player p )
+	{
+		
+		p.setPurse( p.getPurse() + (p.getBet() * 2) );
+		
+	}
+	
+	static void payToPlayer3( Player p )
+	{
+		
+		p.setPurse( p.getPurse() + (p.getBet() * 3) );
+		
+	}
+	
+	static void payToDealer( Dealer d , Player p )
+	{
+		
+		d.setWinnings( d.getWinnings() + p.getBet() );
+		
+	}
+	
+	//Only used in text version
+	
+	static void checkBlackjack( Player player )
+	{
+		
+		if ( player.getHandValue() == 21 ) {
+			
+			System.out.println();
+			System.out.println(" :) YOU GOT BLACKJACK, YOU WIN :)");
+			System.out.println();
+			System.out.println(player.toString());
+			payToPlayer3( player );
+			
+		}
+		
+	}
 
 	/** CLASS METHOD
 	 * @param dealer            Dealer the dealer
@@ -34,6 +71,7 @@ class GameRules
             System.out.println(" :( YOU BUSTED, THE DEALER WINS :(");
             System.out.println();
             System.out.println(dealer.toString());
+			payToDealer( dealer , player );
         } else if (dealer.isBust() && !player.isBust()) {
             System.out.println();
             System.out.println(" :) THE DEALER BUSTED, YOU WIN :)");
@@ -41,6 +79,7 @@ class GameRules
             System.out.println(dealer.toString());
             System.out.println();
             System.out.println(player.toString());
+			payToPlayer2( player );
         } else if (player.isBust() && dealer.isBust()) {
             System.out.println();
             System.out.println(" :| YOU BOTH BUSTED, NO ONE WINS :|");
@@ -62,6 +101,7 @@ class GameRules
             System.out.println(dealer.toString());
             System.out.println();
             System.out.println(player.toString());
+			payToDealer( dealer , player );
         } else if ( !isHigher( dealer, player ) ) {
             System.out.println();
             System.out.println(" :) YOU BEAT THE DEALER, YOU WIN :)");
@@ -69,6 +109,7 @@ class GameRules
             System.out.println(dealer.toString());
             System.out.println();
             System.out.println(player.toString());
+			payToPlayer2( player );
         }
 	}
 

@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans+Condensed');
+@import url('http://fonts.googleapis.com/css?family=Quattrocento');
+
+.root {
+    -fx-font-size: 14pt;
+    -fx-font-family: 'Fira Sans Condensed', sans-serif;
+    -fx-background-color: #FFF;
+}
+
+.button {
+    -fx-padding: 15 15 15 15;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #EEE;
+    -fx-text-fill: #666;
+    -fx-font-size: 24;
+    -fx-margin: 0;
+}
+.button:hover {
+    -fx-text-fill: #333;
+    -fx-cursor: hand;
+}
+.button:pressed {
+    -fx-padding: 15 15 15 15;
+    -fx-background-insets: 0;
+    -fx-background-color: #CCC;
+    -fx-cursor: hand;
+}
+
+.my-hbox {
+    -fx-background-color: #FFFFA1;
+    -fx-border-color: yellow;
+    -fx-border-insets: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 1;
+}
+.my-hbox .button {
+    -fx-background-color: #FFFFA1;
+    -fx-font-size: 36;
+}
+.my-hbox .button:hover {
+    -fx-background-color: #FFFF75;
+}
+.my-hbox .button:pressed {
+    -fx-background-color: #E7E72A;
+}
+
+
+.text-area {
+    -fx-font-size: 14pt;
+    -fx-font-family: 'Fira Sans Condensed', sans-serif;
+    -fx-background-color: #FFF;
+}
+
+.exit {
+    -fx-padding: 15 15 15 15;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #DC2A2A;
+    -fx-text-fill: #EEE;
+    -fx-font-size: 24;
+    -fx-margin: 0;
+}
+.exit:hover {
+    -fx-text-fill: #FFF;
+    -fx-background-color: #B31313;
+    -fx-cursor: hand;
+}
+.exit:pressed {
+    -fx-padding: 15 15 15 15;
+    -fx-background-insets: 0;
+    -fx-background-color: #8C0000;
+    -fx-cursor: hand;
+}
