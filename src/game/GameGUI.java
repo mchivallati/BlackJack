@@ -216,6 +216,7 @@ public class GameGUI extends Application {
 	 *
 	 * @param d    The dealer who will be performing actions.
 	 * @param deck The deck that the game is currently playing with.
+	 * @param p    The player of the current hand (can be AI or regular player).
 	 */
 	private void doDealerAI( Player p, Dealer d, Deck deck ) {
 		
@@ -249,6 +250,7 @@ public class GameGUI extends Application {
 	 * game sequences for the ai.
 	 * </p>
 	 *
+	 * @param d    The dealer who will be performing actions.
 	 * @param ai   The ai that is playing while counting cards.
 	 * @param deck The deck that the game is currently playing with.
 	 * @see engine.CardCountingAI
@@ -320,6 +322,7 @@ public class GameGUI extends Application {
 	 * </p>
 	 *
 	 * @param p     The player that will be playing blackjack.
+	 * @param d     The dealer who will be performing actions.
 	 * @param pane  The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param gameScene The root scene.
 	 */
@@ -495,6 +498,7 @@ public class GameGUI extends Application {
 	 * up tp 21.
 	 * </p>
 	 *
+	 * @param dealer     The dealer who will be performing actions.
 	 * @param player The player that will be playing blackjack.
 	 */
 	private void checkBlackjack( Dealer dealer, Player player ) {
@@ -591,6 +595,7 @@ public class GameGUI extends Application {
 	 * is called. A new card is added to the players hand and the displayed cards are refreshed using <code>refreshPlayerCards(Player p)</code>
 	 * </p>
 	 *
+	 * @param d     The dealer who will be performing actions.
 	 * @param p    The player that will be playing blackjack.
 	 * @param deck The deck that the game is currently playing with.
 	 */
@@ -625,6 +630,7 @@ public class GameGUI extends Application {
 	 *
 	 * @param actionBar The bar on the HBox on the bottom of the screen that prompts the player to either hit or stay.
 	 * @param d         The dealer who will be performing actions.
+	 * @param p         The player that will be playing blackjack.
 	 * @param deck      The deck that the game is currently playing with.
 	 */
 	private void stayBtn( HBox actionBar, Dealer d, Player p, Deck deck ) {
@@ -637,13 +643,18 @@ public class GameGUI extends Application {
 	
 	//File I/O
 	
+	/**
+	 * @param ai            The player that will be playing blackjack.
+	 * @throws IOException	Exception is handled at the method call.
+	 */
 	private void writeToAICSV( Player ai ) throws IOException {
 		
 		String filePath = "src/statistics/AIstats.csv";
 		
-		ExpoOutFile output = new ExpoOutFile( filePath );
+		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
 		System.out.println("Writing to AI File...");
 		
+		//writing the stats to file
 		output.nextLine();
 		output.writeString( "AI" );
 		output.writeString( Integer.toString( winCountPlayer ) );
@@ -658,13 +669,18 @@ public class GameGUI extends Application {
 		
 	}
 	
+	/**
+	 * @param p             The player that will be playing blackjack.
+	 * @throws IOException	Exception is handled at the method call.
+	 */
 	private void writeToPlayerCSV( Player p ) throws IOException {
 		
 		String filePath = "src/statistics/Playerstats.csv";
 		
-		ExpoOutFile output = new ExpoOutFile( filePath );
+		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
 		System.out.println("Writing to Player File...");
 		
+		//writing the stats to file
 		output.nextLine();
 		output.writeString( "Player" );
 		output.writeString( Integer.toString( winCountPlayer ) );
@@ -678,13 +694,18 @@ public class GameGUI extends Application {
 		
 	}
 	
+	/**
+	 * @param d             The dealer who will be performing actions.
+	 * @throws IOException	Exception is handled at the method call.
+	 */
 	private void writeToDealerCSV( Dealer d ) throws IOException {
 		
 		String filePath = "src/statistics/Dealerstats.csv";
 		
-		ExpoOutFile output = new ExpoOutFile( filePath );
+		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
 		System.out.println("Writing to Dealer File...");
 		
+		//writing the stats to file
 		output.nextLine();
 		output.writeString( "Dealer" );
 		output.writeString( Integer.toString( winCountDealer ) );
@@ -698,6 +719,9 @@ public class GameGUI extends Application {
 		
 	}
 	
+	/**
+	 * Utility class to streamline the file writing process
+	 */
 	private class ExpoOutFile
 	{
 		
@@ -709,6 +733,9 @@ public class GameGUI extends Application {
 		 * ExpoOutFile constructor method.
 		 * Associates external file name with internal file object.
 		 * Constructs file object for writing out string values to an external file.
+		 *
+		 * @param filePath	The file path of the csv file your are writing to.
+		 * @throws IOException Exception handled during object creation
 		 **/
 		public ExpoOutFile(String filePath) throws IOException
 		{
@@ -718,16 +745,21 @@ public class GameGUI extends Application {
 		
 		/**
 		 * Writes a single string from internal file object to external hard drive file.
+		 *
+		 * @param input	The data that is being written into the csv file
 		 **/
 		public void writeString(String input) throws IOException
 		{
-			outFile.write(input + ",");
+			outFile.write(input + ","); //Comma added for csv file format
 		}
 		
 		
 		/**
 		 * Writes a single string from internal file object to external hard drive file.
 		 * Additionally a linefeed/carriage return is added.
+		 *
+		 * @param input	The data that is being written into the csv file
+		 *              @throws IOException Exception handled during object creation
 		 **/
 		public void writelnString(String input) throws IOException
 		{
@@ -735,6 +767,12 @@ public class GameGUI extends Application {
 			outFile.newLine();
 		}
 		
+		
+		/**
+		 * A linefeed/carriage return is added when called.
+		 *
+		 * @throws IOException Exception handled during object creation
+		 */
 		public void nextLine() throws IOException {
 			outFile.newLine();
 		}
@@ -742,6 +780,8 @@ public class GameGUI extends Application {
 		
 		/**
 		 * Closes file object.
+		 *
+		 * @throws IOException Exception handled during object creation
 		 **/
 		public void closeFile() throws IOException
 		{
