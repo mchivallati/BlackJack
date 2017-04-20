@@ -14,8 +14,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 
 import static game.GameRules.*;
 
@@ -36,13 +39,14 @@ public class GameGUI extends Application {
 	//creates the grid layout for for the dealer's and player's cards
 	private GridPane playerCardGrid = new GridPane();
 	private GridPane dealerCardGrid = new GridPane();
+	private Label pHandValue = new Label();
 	
-	private Pane textArea = new Pane();
+	private FlowPane textArea = new FlowPane();
 	private HBox actionBar = new HBox( 25 );
 	
-	private int winCount = 0;
-	private int loseCount = 0;
-	private int bustCount = 0;
+	private int winCountPlayer = 0;
+	private int loseCountPlayer = 0;
+	private int bustCountPlayer = 0;
 	private int tieCount = 0;
 	private int winCountDealer = 0;
 	private int loseCountDealer = 0;
@@ -50,7 +54,9 @@ public class GameGUI extends Application {
 	
 	private boolean playAsPlayer;
 	
-	/** <p><b>This is the main running method for the GUI. All GUI creation ultimately is called into this method to create my "stunning" GUI.</b></p>
+	/**
+	 * <p><b>This is the main running method for the GUI. All GUI creation ultimately is called into this method to create my "stunning" GUI.</b></p>
+	 *
 	 * @param primaryStage <i>required</i>
 	 * @throws Exception <i>required</i>
 	 */
@@ -78,27 +84,25 @@ public class GameGUI extends Application {
 		menuGrid.setHgap( 5 );
 		
 		//ai selection button
-		Button aiBtn = new Button("Play with AI");
-		aiBtn.setOnAction( e ->  {
+		Button aiBtn = new Button( "Play with AI" );
+		aiBtn.setOnAction( e -> {
 			playAsPlayer = false;
-			menu.getChildren().add( new Label("this is working"));
 			menu.setVisible( false );
 			pane.setVisible( true );
-			aiGameSequence( pane , gameScene );
-		}  );
-		
-		//player selection button
-		Button playerBtn = new Button("Play as Player");
-		playerBtn.setOnAction( e -> {
-			playAsPlayer = true;
-			menu.getChildren().add( new Label("this is working"));
-			menu.setVisible( false );
-			pane.setVisible( true );
-			playerGameSequence( pane , gameScene );
+			aiGameSequence( gameScene );
 		} );
 		
-		menuGrid.add( aiBtn , 0 , 0 );
-		menuGrid.add( playerBtn , 1 , 0 );
+		//player selection button
+		Button playerBtn = new Button( "Play as Player" );
+		playerBtn.setOnAction( e -> {
+			playAsPlayer = true;
+			menu.setVisible( false );
+			pane.setVisible( true );
+			playerGameSequence( pane, gameScene );
+		} );
+		
+		menuGrid.add( aiBtn, 0, 0 );
+		menuGrid.add( playerBtn, 1, 0 );
 		menuGrid.setAlignment( Pos.CENTER );
 		
 		menu.setCenter( menuGrid );
@@ -109,27 +113,30 @@ public class GameGUI extends Application {
 		Button exit = new Button( "Exit" );
 		exit.getStyleClass().add( "exit" );
 		exit.setMinWidth( 100 );
-		stack.setAlignment( exit , Pos.TOP_RIGHT );
+		StackPane.setAlignment( exit, Pos.TOP_RIGHT );
 		exit.setOnAction( e -> Platform.exit() );
 		
 		//Fullscreen Button
 		Button fullscreenBtn = new Button( "Fullscreen" );
-		stack.setAlignment( fullscreenBtn , Pos.TOP_LEFT );
+		StackPane.setAlignment( fullscreenBtn, Pos.TOP_LEFT );
 		fullscreenBtn.setOnAction( e -> fullscreen( primaryStage, pane, fullscreenBtn ) );
 		
 		/*-THE TEXT AREA THAT SHOWS THE RESULTS-*///------------------------------------------------------------------------------------------//
 		
 		textArea.layoutXProperty().bind( gameScene.xProperty().add( gameScene.widthProperty().divide( 8 ) ) );
 		textArea.layoutYProperty().bind( gameScene.yProperty().add( gameScene.heightProperty().divide( 8 ) ) );
+		textArea.setVgap( 8 );
+		textArea.setHgap( 4 );
+		textArea.setPrefWrapLength( 300 );
 		textArea.getStyleClass().add( "text-area" );
 			
 		/*-FINAL ADDITIONS AND DISPLAYS THE PRIMARY STAGE-*///-------------------------------------------------------------------------------------//
-			
+		
 		//adds the grids to the pane
 		pane.getChildren().add( dealerCardGrid );
 		pane.getChildren().add( playerCardGrid );
-		
-		stack.getChildren().addAll( menu , pane , exit );
+		pane.getChildren().add( textArea );
+		stack.getChildren().addAll( menu, pane, exit );
 		
 		primaryStage.setTitle( "BlackJack" );
 		primaryStage.setScene( gameScene );
@@ -141,7 +148,8 @@ public class GameGUI extends Application {
 	
 	/**
 	 * <p>Main method in case some IDEs do not support the JavaFX start method as a execution point</p>
-	 * @param args		inputted console params <i>*not used*</i>
+	 *
+	 * @param args inputted console params <i>*not used*</i>
 	 */
 	public static void main( String[] args ) {
 		
@@ -156,28 +164,20 @@ public class GameGUI extends Application {
 	 * is called inside the event handler for the <code>playerBtn</code> button inside
 	 * the menu border pane <i>*see line 84*</i>.
 	 * </p>
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param pane      The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param gameScene The root scene.
 	 */
-	private void playerGameSequence( Pane pane , Scene gameScene ) {
+	private void playerGameSequence( Pane pane, Scene gameScene ) {
 		Deck deck = new Deck();
 		deck.shuffleDeck( 1000 );
 		Dealer d = new Dealer( deck.getDeck() );
-		System.out.println("doing the player game sequence");
+		System.out.println( "doing the player game sequence" );
 		Player p = new Player( deck.getDeck() );
-		askForBet( p, d, pane, gameScene );
 		
-		//displays the cards, see line 137
-		showCards( p, d, gameScene );
-		
-		checkBlackjack( p, pane );
-		
-		
-		if ( ! p.hasBlackjack() ) {
-			actionBar( pane, gameScene, p, d, deck );
-		}
-		
-		checkRules( d, p, textArea );
+		//for (int i = 0 ; i < 2 ; i ++) {
+		askForBet( p, d, deck, pane, gameScene );
+		//}
 	}
 	
 	/**
@@ -187,26 +187,24 @@ public class GameGUI extends Application {
 	 * as no bet enter text field. This method is called inside the <code>aiBtn</code> event
 	 * handler <i>*see line 75*</i>
 	 * </p>
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
 	 * @param gameScene The root scene.
 	 */
-	private void aiGameSequence( Pane pane , Scene gameScene ) {
+	private void aiGameSequence( Scene gameScene ) {
 		Deck deck = new Deck();
 		deck.shuffleDeck( 1000 );
 		Dealer d = new Dealer( deck.getDeck() );
-		System.out.println("doing the ai game sequence");
+		System.out.println( "doing the ai game sequence" );
 		CardCountingAI ai = new CardCountingAI( deck.getDeck() );
-		ai.setBet( d );
-		showCards( ai, d, gameScene );
-		checkBlackjack( ai, pane );
-		if ( ! ai.hasBlackjack() ) {
-			countCardsAI( ai, deck, pane );
-			doDealerAI( d, deck, pane );
-			if ( ai.isBust() ) {
-				bustCount++;
+		
+		//for ( int i = 0 ; i < 3 ; i++ ) {
+			ai.setBet( d );
+			showCards( ai, d, gameScene );
+			checkBlackjack( d, ai );
+			if ( ! ai.hasBlackjack() ) {
+				countCardsAI( d, ai, deck );
 			}
-		}
-		checkRules( d, ai, textArea );
+		//}
 	}
 	
 	/**
@@ -215,19 +213,32 @@ public class GameGUI extends Application {
 	 * <code>useDealerAI(Deck d)</code> implemented in Dealer.java. It is called in both the
 	 * game sequences for the ai and player.
 	 * </p>
-	 * @param d The dealer who will be performing actions.
+	 *
+	 * @param d    The dealer who will be performing actions.
 	 * @param deck The deck that the game is currently playing with.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 * @param p    The player of the current hand (can be AI or regular player).
 	 */
-	private void doDealerAI( Dealer d, Deck deck, Pane pane ) {
+	private void doDealerAI( Player p, Dealer d, Deck deck ) {
 		
 		d.useDealerAI( deck );
-		dealerCardGrid.add( new ImageView( new Image( "images/" + d.getHand().get( 1 ).getRank() + "_of_" + d.getHand().get( 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), 1, 0 );
+		dealerCardGrid.add( new ImageView( new Image( "images/" + d.getHand().get( 1 ).getRank() + "_of_" + d.getHand().get( 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), 1, 1 );
 		refreshDealerCards( d );
 		if ( d.isBust() ) {
-			textArea.getChildren().add( new Text( "The dealer busted" ) );
+			textArea.getChildren().add( new Label( "\nThe dealer busted\nThe player won" ) );
 			bustCountDealer++;
-			pane.getChildren().add( textArea );
+			loseCountDealer++;
+			winCountPlayer++;
+			payToPlayer2( p );
+			try {
+				writeToPlayerCSV( p );
+				writeToDealerCSV( d );
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (!playAsPlayer) {
+			checkRules( d , p , textArea );
 		}
 		
 	}
@@ -238,21 +249,32 @@ public class GameGUI extends Application {
 	 * <code>doAction(Deck deck)</code> method implemented in CountingCardAI.java. It is called in the
 	 * game sequences for the ai.
 	 * </p>
-	 * @see engine.CardCountingAI
-	 * @param ai The ai that is playing while counting cards.
+	 *
+	 * @param d    The dealer who will be performing actions.
+	 * @param ai   The ai that is playing while counting cards.
 	 * @param deck The deck that the game is currently playing with.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 * @see engine.CardCountingAI
 	 */
-	private void countCardsAI( CardCountingAI ai , Deck deck, Pane pane)
-	{
+	private void countCardsAI( Dealer d, CardCountingAI ai, Deck deck ) {
 		
 		ai.doAction( deck );
-		dealerCardGrid.add( new ImageView( new Image( "images/" + ai.getHand().get( 1 ).getRank() + "_of_" + ai.getHand().get( 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), 1, 0 );
+		//dealerCardGrid.add( new ImageView( new Image( "images/" + ai.getHand().get( 1 ).getRank() + "_of_" + ai.getHand().get( 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), 1, 0 );
 		refreshPlayerCards( ai );
 		if ( ai.isBust() ) {
-			textArea.getChildren().add( new Text( "The dealer busted" ) );
-			bustCountDealer++;
-			pane.getChildren().add( textArea );
+			textArea.getChildren().add( new Label( "\nThe AI busted\nThe dealer won\n" ) );
+			bustCountPlayer++;
+			loseCountPlayer++;
+			winCountDealer++;
+			ai.setPurse( ai.getPurse() - ai.getBet() );
+			
+			try {
+				writeToAICSV( ai );
+				writeToDealerCSV( d );
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
+		} else {
+			doDealerAI( ai, d, deck );
 		}
 		
 	}
@@ -262,11 +284,12 @@ public class GameGUI extends Application {
 	 * This method creates an HBox on the bottom of the screen filled with the hit button and
 	 * stay button. It allows the player to interact and play the game.
 	 * </p>
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param pane  The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param scene The root scene.
-	 * @param p The player that will be playing blackjack.
-	 * @param d The dealer who will be performing actions.
-	 * @param deck The deck that the game is currently playing with.
+	 * @param p     The player that will be playing blackjack.
+	 * @param d     The dealer who will be performing actions.
+	 * @param deck  The deck that the game is currently playing with.
 	 */
 	private void actionBar( Pane pane, Scene scene, Player p, Dealer d, Deck deck ) {
 		
@@ -279,8 +302,8 @@ public class GameGUI extends Application {
 		hit.setMinWidth( 200 );
 		stay.setMinWidth( 200 );
 		
-		hit.setOnAction( e -> hitBtn( p, deck, pane ) );
-		stay.setOnAction( e -> stayBtn( actionBar, d, deck, pane ) );
+		hit.setOnAction( e -> hitBtn( d, p, deck ) );
+		stay.setOnAction( e -> stayBtn( actionBar, d, p, deck ) );
 		
 		actionBar.getChildren().add( hit );
 		actionBar.getChildren().add( stay );
@@ -297,45 +320,81 @@ public class GameGUI extends Application {
 	 * area displaying an error message. The bet area will still appear until the player has
 	 * entered a bet.
 	 * </p>
-	 * @param p The player that will be playing blackjack.
-	 * @param d The dealer who will be performing actions.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
-	 * @param scene The root scene.
+	 *
+	 * @param p     The player that will be playing blackjack.
+	 * @param d     The dealer who will be performing actions.
+	 * @param pane  The main pane used for the game. Contains all the cards and other main nodes.
+	 * @param gameScene The root scene.
 	 */
-	private void askForBet( Player p, Dealer d, Pane pane, Scene scene ) {
+	private void askForBet( Player p, Dealer d, Deck deck, Pane pane, Scene gameScene ) {
 		
+		//final int[] counter = { 0 };
 		Button bet = new Button( "Bet" );
 		TextField betInput = new TextField( "Input a bet" );
 		Label purse = new Label( Integer.toString( p.getPurse() ) );
 		Label l = new Label( "Oops! Wrong input	" );
+		
 		l.setVisible( false );
 		
-		HBox betBox = new HBox();
-		betBox.getChildren().add( l );
-		
-		betBox.getChildren().add( bet );
-		betBox.getChildren().add( betInput );
-		betBox.getChildren().add( purse );
-		
-		betBox.setSpacing( 20 );
-		
-		betBox.layoutXProperty().bind( scene.widthProperty().subtract( betBox.widthProperty().add( 10 ) ) );
-		betBox.layoutYProperty().bind( scene.heightProperty().divide( 2 ) );
-		
-		pane.getChildren().add( betBox );
-		
-		bet.setOnAction( e -> {
+		//for ( int i = 0 ; i < 2 ; i++ ) {
+			//actionBar.setVisible( false );
+			//l.setVisible( false );
 			
-			try {
-				p.setBet( Integer.parseInt( betInput.getText() ) );
-				betBox.setVisible( false );
-			} catch ( NumberFormatException nfe ) {
-				
-				l.setVisible( true );
-				
-			}
+			//if ( deck.getDeck().size() < 4 ) {
+			//	deck = new Deck();
+			//}
 			
-		} );
+			//p.initHand( deck.getDeck() );
+			//d.initHand( deck.getDeck() );
+			
+			HBox betBox = new HBox();
+			betBox.getChildren().add( l );
+			
+			betBox.getChildren().add( bet );
+			betBox.getChildren().add( betInput );
+			betBox.getChildren().add( purse );
+			
+			betBox.setSpacing( 20 );
+			
+			betBox.layoutXProperty().bind( gameScene.widthProperty().divide( 2 ).subtract( betBox.widthProperty().divide( 2 ) ) );
+			betBox.layoutYProperty().bind( gameScene.heightProperty().divide( 2 ).subtract( betBox.heightProperty() ) );
+			
+			pane.getChildren().add( betBox );
+			
+			bet.setOnAction( e -> {
+				
+				try {
+					if ( Integer.parseInt( betInput.getText() ) <= p.getPurse() ) {
+						
+						p.setBet( Integer.parseInt( betInput.getText() ) );
+						
+						//displays the cards, see line 137
+						showCards( p, d, gameScene );
+						
+						checkBlackjack( d, p );
+						
+						if ( ! p.hasBlackjack() ) {
+							actionBar( pane, gameScene, p, d, deck );
+						}
+						
+						pane.getChildren().remove( betBox );
+						//int i = counter[0]++;
+						//if (i < 2) {
+						//	askForBet( p , d , deck , pane , gameScene );
+						//}
+						
+					} else {
+						throw new NumberFormatException(  );
+					}
+				} catch ( NumberFormatException e1 ) {
+					
+					l.setVisible( true );
+					
+				}
+				
+			} );
+			
+		//}
 		
 	}
 	
@@ -345,13 +404,14 @@ public class GameGUI extends Application {
 	 * gets their respective cards currently in their hands. This is accomplish by naming the images
 	 * in the <code>src/images</code> folder. The images of the cards are named using the following
 	 * convention:
-	 *
-	 *     <i>cardsRank</i>_of_<i>cardsSuit</i>.png
-	 *     For example the Ace of Spades card's image name would be "Ace_of_Spades.png"
-	 *
+	 * <p>
+	 * <i>cardsRank</i>_of_<i>cardsSuit</i>.png
+	 * For example the Ace of Spades card's image name would be "Ace_of_Spades.png"
+	 * <p>
 	 * </p>
-	 * @param p The player that will be playing blackjack.
-	 * @param d The dealer who will be performing actions.
+	 *
+	 * @param p     The player that will be playing blackjack.
+	 * @param d     The dealer who will be performing actions.
 	 * @param scene The root scene.
 	 */
 	private void showCards( Player p, Dealer d, Scene scene ) {
@@ -369,10 +429,15 @@ public class GameGUI extends Application {
 		ImageView dc2 = new ImageView( dealerCard2 );
 		
 		//adds dealer cards the grid
-		dealerCardGrid.add( dc1, 0, 0 );
-		dealerCardGrid.add( dc2, 1, 0 );
+		dealerCardGrid.add( new Label("Dealer") , 0 , 0 );
+		dealerCardGrid.add( dc1, 0, 1 );
+		dealerCardGrid.add( dc2, 1, 1 );
+		
+		pHandValue.setText( "Hand Value: " + p.getHandValue() );
 		
 		//adds player cards to grid
+		playerCardGrid.add( new Label("Player") , 0 , 0 );
+		playerCardGrid.add( pHandValue , 1 , 0 );
 		playerCardGrid.add( pc1, 0, 1 );
 		playerCardGrid.add( pc2, 1, 1 );
 		
@@ -393,14 +458,20 @@ public class GameGUI extends Application {
 	 * their hand. The method is only called directly after the player hits, so there is only a need
 	 * to add the newest card added to the player's hand.
 	 * </p>
+	 *
 	 * @param p The player that will be playing blackjack.
 	 */
-	private void refreshPlayerCards( Player p ) //Only called after the player hits
-	{
+	private void refreshPlayerCards( Player p ) { //Only called after the player hits
 		
 		if ( p.getHand().size() != 2 ) {
 			playerCardGrid.add( new ImageView( new Image( "images/" + p.getHand().get( p.getHand().size() - 1 ).getRank() + "_of_" + p.getHand().get( p.getHand().size() - 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), p.getHand().size() - 1, 1 );
 		}
+		
+		
+		//creates the text showing the value of the player's hand
+		playerCardGrid.getChildren().remove( pHandValue );
+		playerCardGrid.add( pHandValue , 1 , 0 );
+		pHandValue.setText("Hand Value: " + p.getHandValue());
 		
 	}
 	
@@ -410,13 +481,13 @@ public class GameGUI extends Application {
 	 * updates the dealer's displayed cards instead of the player's. It is also only called directly
 	 * after the dealer hits.
 	 * </p>
+	 *
 	 * @param d The dealer who will be performing actions.
 	 */
-	private void refreshDealerCards( Dealer d ) //Only called after the dealer hits
-	{
+	private void refreshDealerCards( Dealer d ) { //Only called after the dealer hits
 		
 		if ( d.getHand().size() != 2 ) {
-			dealerCardGrid.add( new ImageView( new Image( "images/" + d.getHand().get( d.getHand().size() - 1 ).getRank() + "_of_" + d.getHand().get( d.getHand().size() - 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), d.getHand().size() - 1, 0 );
+			dealerCardGrid.add( new ImageView( new Image( "images/" + d.getHand().get( d.getHand().size() - 1 ).getRank() + "_of_" + d.getHand().get( d.getHand().size() - 1 ).getSuit() + ".png", 200, 300, false, true, false ) ), d.getHand().size() - 1, 1 );
 		}
 		
 	}
@@ -426,15 +497,25 @@ public class GameGUI extends Application {
 	 * Checks to see of the player has black jack or when the first two cards the player is dealt add
 	 * up tp 21.
 	 * </p>
+	 *
+	 * @param dealer     The dealer who will be performing actions.
 	 * @param player The player that will be playing blackjack.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
 	 */
-	private void checkBlackjack( Player player, Pane pane ) {
+	private void checkBlackjack( Dealer dealer, Player player ) {
 		
 		if ( player.hasBlackjack() ) {
 			payToPlayer3( player );
-			textArea.getChildren().add( new Text( "You got blackjack" ) );
-			pane.getChildren().add( textArea );
+			textArea.getChildren().add( new Label( "\nYou got blackjack\n" ) );
+			try {
+				if (playAsPlayer) {
+					writeToPlayerCSV( player );
+				} else {
+					writeToAICSV( player );
+				}
+				writeToDealerCSV( dealer );
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -445,40 +526,59 @@ public class GameGUI extends Application {
 	 * method checks to see who won and lost the hand. It also accounts of rif there is a tie between
 	 * the player and dealer.
 	 * </p>
-	 * @param dealer The dealer who will be performing actions.
-	 * @param player The player that will be playing blackjack.
+	 *
+	 * @param dealer   The dealer who will be performing actions.
+	 * @param player   The player that will be playing blackjack.
 	 * @param textArea The text area where the result of the hand are shown.
 	 */
 	private void checkRules( Dealer dealer, Player player, Pane textArea ) {
 		
+		System.out.println("checking the rules");
 		Label label = new Label();
 		
-		if ( player.getHandValue() == dealer.getHandValue() ) {
-			label.setText( "Both tied" );
-			tieCount++;
-		} else if ( isHigher( dealer, player ) ) {
-			label.setText( "The dealer won the hand" );
-			winCountDealer++;
-			payToDealer( dealer, player );
-		} else if ( ! isHigher( dealer, player ) ) {
-			label.setText( "Player won the hand" );
-			winCount++;
-			payToPlayer2( player );
+		if ( !dealer.isBust() && !player.isBust()) {
+			if ( player.getHandValue() == dealer.getHandValue() ) {
+				label.setText( "\nBoth tied\n" );
+				tieCount++;
+			} else if ( isHigher( dealer, player ) ) {
+				label.setText( "\nThe dealer won the hand\n" );
+				winCountDealer++;
+				loseCountPlayer++;
+				player.setPurse( player.getPurse() - player.getBet() );
+				payToDealer( dealer, player );
+			} else if ( ! isHigher( dealer, player ) ) {
+				label.setText( "\nthe player won the hand\n" );
+				winCountPlayer++;
+				loseCountDealer++;
+				payToPlayer2( player );
+			}
+			try {
+				if (playAsPlayer) {
+					writeToPlayerCSV( player );
+				} else {
+					writeToAICSV( player );
+				}
+				writeToDealerCSV( dealer );
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		textArea.getChildren().add( label );
-		
 	}
 	
 	//Handlers
 	
-	/** <b>EVENT HANDLER</b>
+	/**
+	 * <b>EVENT HANDLER</b>
 	 * <p>
 	 * This method is the event handler for the fullscreen button. When clicked, the primary stage
 	 * will become fullscreen.
 	 * </p>
-	 * @param primaryStage The main stage object used in the GUI.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 *
+	 * @param primaryStage  The main stage object used in the GUI.
+	 * @param pane          The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param fullscreenBtn The fullscreen button on the top left of the screen.
 	 */
 	private void fullscreen( Stage primaryStage, Pane pane, Button fullscreenBtn ) {
@@ -488,44 +588,205 @@ public class GameGUI extends Application {
 		
 	}
 	
-	/** <b>EVENT HANDLER</b>
+	/**
+	 * <b>EVENT HANDLER</b>
 	 * <p>
 	 * This method is the event handler for the hit button. When clicked, the <code>hit(Arraylist deck)</code> method
 	 * is called. A new card is added to the players hand and the displayed cards are refreshed using <code>refreshPlayerCards(Player p)</code>
 	 * </p>
-	 * @param p The player that will be playing blackjack.
+	 *
+	 * @param d     The dealer who will be performing actions.
+	 * @param p    The player that will be playing blackjack.
 	 * @param deck The deck that the game is currently playing with.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
 	 */
-	private void hitBtn( Player p, Deck deck, Pane pane ) //has the player hit and updates the shown cards on the gui
-	{
+	private void hitBtn( Dealer d, Player p, Deck deck ) { //has the player hit and updates the shown cards on the gui
 		
 		p.hit( deck.getDeck() );
 		refreshPlayerCards( p );
 		if ( p.isBust() ) {
 			actionBar.setVisible( false );
-			textArea.getChildren().add( new Text( "You busted" ) );
-			pane.getChildren().add( textArea );
+			textArea.getChildren().add( new Label( "\nYou busted\nThe dealer won\n" ) );
+			winCountDealer++;
+			loseCountPlayer++;
+			bustCountPlayer++;
+			p.setPurse( p.getPurse() - p.getBet() );
+			try {
+				writeToPlayerCSV( p );
+				writeToDealerCSV( d );
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
 	
-	/** <b>EVENT HANDLER</b>
+	/**
+	 * <b>EVENT HANDLER</b>
 	 * <p>
 	 * This method is the event handler for the stay button. When clicked, the action bar is set
 	 * to not visible so the player cannot perform any more actions after the game sequence
 	 * progresses.
 	 * </p>
+	 *
 	 * @param actionBar The bar on the HBox on the bottom of the screen that prompts the player to either hit or stay.
-	 * @param d The dealer who will be performing actions.
-	 * @param deck The deck that the game is currently playing with.
-	 * @param pane The main pane used for the game. Contains all the cards and other main nodes.
+	 * @param d         The dealer who will be performing actions.
+	 * @param p         The player that will be playing blackjack.
+	 * @param deck      The deck that the game is currently playing with.
 	 */
-	private void stayBtn( HBox actionBar, Dealer d, Deck deck, Pane pane ) {
+	private void stayBtn( HBox actionBar, Dealer d, Player p, Deck deck ) {
 		
 		actionBar.setVisible( false );
-		doDealerAI( d, deck, pane );
-		pane.getChildren().add( textArea );
+		doDealerAI( p, d, deck );
+		checkRules( d, p, textArea );
+		
+	}
+	
+	//File I/O
+	
+	/**
+	 * @param ai            The player that will be playing blackjack.
+	 * @throws IOException	Exception is handled at the method call.
+	 */
+	private void writeToAICSV( Player ai ) throws IOException {
+		
+		String filePath = "src/statistics/AIstats.csv";
+		
+		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
+		System.out.println("Writing to AI File...");
+		
+		//writing the stats to file
+		output.nextLine();
+		output.writeString( "AI" );
+		output.writeString( Integer.toString( winCountPlayer ) );
+		output.writeString( Integer.toString( loseCountPlayer ) );
+		output.writeString( Integer.toString( bustCountPlayer ) );
+		output.writeString( Integer.toString( tieCount ) );
+		output.writeString( Integer.toString( ai.getPurse() - 100 ) );
+		
+		output.closeFile();
+		System.out.println("File output stream closed...");
+		
+		
+	}
+	
+	/**
+	 * @param p             The player that will be playing blackjack.
+	 * @throws IOException	Exception is handled at the method call.
+	 */
+	private void writeToPlayerCSV( Player p ) throws IOException {
+		
+		String filePath = "src/statistics/Playerstats.csv";
+		
+		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
+		System.out.println("Writing to Player File...");
+		
+		//writing the stats to file
+		output.nextLine();
+		output.writeString( "Player" );
+		output.writeString( Integer.toString( winCountPlayer ) );
+		output.writeString( Integer.toString( loseCountPlayer ) );
+		output.writeString( Integer.toString( bustCountPlayer ) );
+		output.writeString( Integer.toString( tieCount ) );
+		output.writeString( Integer.toString( p.getPurse() - 100 ) );
+		
+		output.closeFile();
+		System.out.println("File output stream closed...");
+		
+	}
+	
+	/**
+	 * @param d             The dealer who will be performing actions.
+	 * @throws IOException	Exception is handled at the method call.
+	 */
+	private void writeToDealerCSV( Dealer d ) throws IOException {
+		
+		String filePath = "src/statistics/Dealerstats.csv";
+		
+		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
+		System.out.println("Writing to Dealer File...");
+		
+		//writing the stats to file
+		output.nextLine();
+		output.writeString( "Dealer" );
+		output.writeString( Integer.toString( winCountDealer ) );
+		output.writeString( Integer.toString( loseCountDealer ) );
+		output.writeString( Integer.toString( bustCountDealer ) );
+		output.writeString( Integer.toString( tieCount ) );
+		output.writeString( Integer.toString( d.getWinnings() ) );
+		
+		output.closeFile();
+		System.out.println("File output stream closed...");
+		
+	}
+	
+	/**
+	 * Utility class to streamline the file writing process
+	 */
+	private class ExpoOutFile
+	{
+		
+		private String fileName;
+		private BufferedWriter outFile;
+		
+		
+		/**
+		 * ExpoOutFile constructor method.
+		 * Associates external file name with internal file object.
+		 * Constructs file object for writing out string values to an external file.
+		 *
+		 * @param filePath	The file path of the csv file your are writing to.
+		 * @throws IOException Exception handled during object creation
+		 **/
+		public ExpoOutFile(String filePath) throws IOException
+		{
+			fileName = filePath;
+			outFile = new BufferedWriter(new FileWriter(fileName, true));
+		}
+		
+		/**
+		 * Writes a single string from internal file object to external hard drive file.
+		 *
+		 * @param input	The data that is being written into the csv file
+		 **/
+		public void writeString(String input) throws IOException
+		{
+			outFile.write(input + ","); //Comma added for csv file format
+		}
+		
+		
+		/**
+		 * Writes a single string from internal file object to external hard drive file.
+		 * Additionally a linefeed/carriage return is added.
+		 *
+		 * @param input	The data that is being written into the csv file
+		 *              @throws IOException Exception handled during object creation
+		 **/
+		public void writelnString(String input) throws IOException
+		{
+			outFile.write(input + ",");
+			outFile.newLine();
+		}
+		
+		
+		/**
+		 * A linefeed/carriage return is added when called.
+		 *
+		 * @throws IOException Exception handled during object creation
+		 */
+		public void nextLine() throws IOException {
+			outFile.newLine();
+		}
+		
+		
+		/**
+		 * Closes file object.
+		 *
+		 * @throws IOException Exception handled during object creation
+		 **/
+		public void closeFile() throws IOException
+		{
+			outFile.close();
+		}
 		
 	}
 	

@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**********************************************************************
  * ${NAME}.java
@@ -21,8 +22,13 @@ abstract class Person {
 	/**
 	 * @param deck ArrayList(Card) game deck
 	 */
-	void initHand( ArrayList<Card> deck ) {
+	public void initHand( ArrayList<Card> deck ) {
 		
+		if ( !this.hand.isEmpty() ) {
+			for ( int i = 0 ; i < this.hand.size() ; i++ ) {
+				this.hand.remove( i );
+			}
+		}
 		this.hand.add( deck.get( 0 ) );
 		deck.remove( 0 );
 		this.hand.add( deck.get( 0 ) );
