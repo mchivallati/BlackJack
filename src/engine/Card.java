@@ -18,18 +18,6 @@ public class Card {
 	private int val;
 	
 	/**
-	 *
-	 */
-	public Card() //default constructor
-	{
-		
-		this.suit = "";
-		this.rank = "";
-		this.val = 0;
-		
-	}
-	
-	/**
 	 * CONSTRUCTOR
 	 *
 	 * @param suit String card suit

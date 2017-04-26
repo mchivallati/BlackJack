@@ -36,13 +36,6 @@ abstract class Person {
 	}
 	
 	/**
-	 * @param deck ArrayList(Card) game deck
-	 */
-	public void returnCardsToDeck( ArrayList<Card> deck ) {
-		deck.addAll( hand );
-	}
-	
-	/**
 	 * OBJECT METHOD
 	 *
 	 * @return int value of the dealers current hand

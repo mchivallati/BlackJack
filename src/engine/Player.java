@@ -55,12 +55,6 @@ public class Player extends Person {
 		deck.remove( 0 );
 		checkAce();
 		setHandValue( this.hand );
-		//setHandValue(deck);
-		/*System.out.println();
-		System.out.println("-----------------------------");
-		System.out.println("You take a card from the deck");
-		System.out.println( "----------------------------");
-		System.out.println(toString());*/
 	}
 	
 	/**

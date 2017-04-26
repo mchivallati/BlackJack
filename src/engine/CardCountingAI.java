@@ -18,26 +18,6 @@ public class CardCountingAI extends Player {
 	private double tableCount = 0;
 	
 	/**
-	 * Default constructor. It calls the default constructor of the Player class
-	 */
-	public CardCountingAI() {
-		
-		super();
-		
-	}
-	
-	/**
-	 * Calls the default constructor of the Player class and set the value of the tableCount.
-	 * @param tableCount The count of the table.
-	 */
-	public CardCountingAI( int tableCount ) {
-		
-		super();
-		this.tableCount = tableCount;
-		
-	}
-	
-	/**
 	 * Calls the constructor of the Player class that uses a deck object. Also sets the AI's availble money to bet to $100.
 	 * @param deck The current game deck.
 	 */
@@ -45,17 +25,6 @@ public class CardCountingAI extends Player {
 		
 		super( deck );
 		this.setPurse( 100 );
-		
-	}
-	
-	/**
-	 * @param tableCount The count of the table.
-	 * @param deck The count of the table.
-	 */
-	public CardCountingAI( int tableCount, ArrayList<Card> deck ) {
-		
-		super( deck );
-		this.tableCount = tableCount;
 		
 	}
 	
