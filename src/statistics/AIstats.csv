@@ -1,3 +1,4 @@
 Type,Win Count,Lose Count,Bust Count,Tie Count,Total Winnings,
 AI,0,1,1,0,-10,
 AI,1,0,0,0,16,
+AI,1,0,0,0,8,

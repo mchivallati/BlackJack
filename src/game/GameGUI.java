@@ -332,7 +332,8 @@ public class GameGUI extends Application {
 		
 		//final int[] counter = { 0 };
 		Button bet = new Button( "Bet" );
-		TextField betInput = new TextField( "Input a bet" );
+		TextField betInput = new TextField("");
+		betInput.setPromptText("Input a bet");
 		Label purse = new Label( Integer.toString( p.getPurse() ) );
 		Label l = new Label( "Oops! Wrong input	" );
 		
