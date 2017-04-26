@@ -1,33 +1,21 @@
 package engine;
 
 /**********************************************************************
- * ${NAME}.java
+ * Card.java
  * Assignment Number:
  * Author: Matthew Chivallati
  * Collaborations:
  * Date: 04052017
  *
- * Variable List:
+ * Variable List: suit, rank, val
  *
- * Method List:
+ * Method List: Card, getSuit, getRank, getVal, setRank, setSuit, setVal, toString
  *********************************************************************/
 public class Card {
 	
 	private String suit;
 	private String rank;
 	private int val;
-	
-	/**
-	 *
-	 */
-	public Card() //default constructor
-	{
-		
-		this.suit = "";
-		this.rank = "";
-		this.val = 0;
-		
-	}
 	
 	/**
 	 * CONSTRUCTOR

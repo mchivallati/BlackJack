@@ -1,2 +1,8 @@
 Type,Win Count,Lose Count,Bust Count,Tie Count,Total Winnings,
 Dealer,1,0,0,0,13,
+Dealer,0,1,1,0,0,
+Dealer,1,0,0,0,0,
+Dealer,0,1,1,0,0,
+Dealer,1,0,0,0,0,
+Dealer,1,0,0,0,100,
+Dealer,0,1,1,0,0,

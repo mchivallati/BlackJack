@@ -1,18 +1,17 @@
 package engine;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**********************************************************************
- * ${NAME}.java
+ * Person.java
  * Assignment Number:
  * Author: Matthew Chivallati
  * Collaborations:
  * Date: 04052017
  *
- * Variable List:
+ * Variable List: hand, handValue
  *
- * Method List:
+ * Method List: initHand, returnCardsToDeck, getHandValue, setHandValue, getHand, isBust, hasBlackjack, checkAce, toString, hit, stay
  *********************************************************************/
 abstract class Person {
 	
@@ -22,9 +21,9 @@ abstract class Person {
 	/**
 	 * @param deck ArrayList(Card) game deck
 	 */
-	public void initHand( ArrayList<Card> deck ) {
+	void initHand( ArrayList<Card> deck ) {
 		
-		if ( !this.hand.isEmpty() ) {
+		if ( ! this.hand.isEmpty() ) {
 			for ( int i = 0 ; i < this.hand.size() ; i++ ) {
 				this.hand.remove( i );
 			}
@@ -34,13 +33,6 @@ abstract class Person {
 		this.hand.add( deck.get( 0 ) );
 		deck.remove( 0 );
 		
-	}
-	
-	/**
-	 * @param deck ArrayList(Card) game deck
-	 */
-	public void returnCardsToDeck( ArrayList<Card> deck ) {
-		deck.addAll( hand );
 	}
 	
 	/**

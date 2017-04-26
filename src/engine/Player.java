@@ -3,15 +3,15 @@ package engine;
 import java.util.ArrayList;
 
 /**********************************************************************
- * ${NAME}.java
+ * Player.java
  * Assignment Number:
  * Author: Matthew Chivallati
  * Collaborations:
  * Date: 04052017
  *
- * Variable List:
+ * Variable List: purse, bet
  *
- * Method List:
+ * Method List: PLayer, hit, stay, toString, getPurse, setPurse, getBet, setBet
  *********************************************************************/
 public class Player extends Person {
 	
@@ -55,12 +55,6 @@ public class Player extends Person {
 		deck.remove( 0 );
 		checkAce();
 		setHandValue( this.hand );
-		//setHandValue(deck);
-		/*System.out.println();
-		System.out.println("-----------------------------");
-		System.out.println("You take a card from the deck");
-		System.out.println( "----------------------------");
-		System.out.println(toString());*/
 	}
 	
 	/**
