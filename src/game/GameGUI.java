@@ -15,15 +15,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 
 import static game.GameRules.*;
 
 /**********************************************************************
- * CardCountingAI.java
+ * GameGUI.java
  * Assignment Number:
  * Author: Matthew Chivallati
  * Collaborations:
@@ -197,14 +197,12 @@ public class GameGUI extends Application {
 		System.out.println( "doing the ai game sequence" );
 		CardCountingAI ai = new CardCountingAI( deck.getDeck() );
 		
-		//for ( int i = 0 ; i < 3 ; i++ ) {
-			ai.setBet( d );
-			showCards( ai, d, gameScene );
-			checkBlackjack( d, ai );
-			if ( ! ai.hasBlackjack() ) {
-				countCardsAI( d, ai, deck );
-			}
-		//}
+		ai.setBet( d );
+		showCards( ai, d, gameScene );
+		checkBlackjack( d, ai );
+		if ( ! ai.hasBlackjack() ) {
+			countCardsAI( d, ai, deck );
+		}
 	}
 	
 	/**
@@ -230,15 +228,19 @@ public class GameGUI extends Application {
 			winCountPlayer++;
 			payToPlayer2( p );
 			try {
-				writeToPlayerCSV( p );
+				if ( playAsPlayer ) {
+					writeToPlayerCSV( p );
+				} else {
+					writeToAICSV( p );
+				}
 				writeToDealerCSV( d );
 			} catch ( IOException e ) {
 				e.printStackTrace();
 			}
 		}
 		
-		if (!playAsPlayer) {
-			checkRules( d , p , textArea );
+		if ( ! playAsPlayer ) {
+			checkRules( d, p, textArea );
 		}
 		
 	}
@@ -321,9 +323,9 @@ public class GameGUI extends Application {
 	 * entered a bet.
 	 * </p>
 	 *
-	 * @param p     The player that will be playing blackjack.
-	 * @param d     The dealer who will be performing actions.
-	 * @param pane  The main pane used for the game. Contains all the cards and other main nodes.
+	 * @param p         The player that will be playing blackjack.
+	 * @param d         The dealer who will be performing actions.
+	 * @param pane      The main pane used for the game. Contains all the cards and other main nodes.
 	 * @param gameScene The root scene.
 	 */
 	private void askForBet( Player p, Dealer d, Deck deck, Pane pane, Scene gameScene ) {
@@ -337,63 +339,63 @@ public class GameGUI extends Application {
 		l.setVisible( false );
 		
 		//for ( int i = 0 ; i < 2 ; i++ ) {
-			//actionBar.setVisible( false );
-			//l.setVisible( false );
+		//actionBar.setVisible( false );
+		//l.setVisible( false );
+		
+		//if ( deck.getDeck().size() < 4 ) {
+		//	deck = new Deck();
+		//}
+		
+		//p.initHand( deck.getDeck() );
+		//d.initHand( deck.getDeck() );
+		
+		HBox betBox = new HBox();
+		betBox.getChildren().add( l );
+		
+		betBox.getChildren().add( bet );
+		betBox.getChildren().add( betInput );
+		betBox.getChildren().add( purse );
+		
+		betBox.setSpacing( 20 );
+		
+		betBox.layoutXProperty().bind( gameScene.widthProperty().divide( 2 ).subtract( betBox.widthProperty().divide( 2 ) ) );
+		betBox.layoutYProperty().bind( gameScene.heightProperty().divide( 2 ).subtract( betBox.heightProperty() ) );
+		
+		pane.getChildren().add( betBox );
+		
+		bet.setOnAction( e -> {
 			
-			//if ( deck.getDeck().size() < 4 ) {
-			//	deck = new Deck();
-			//}
-			
-			//p.initHand( deck.getDeck() );
-			//d.initHand( deck.getDeck() );
-			
-			HBox betBox = new HBox();
-			betBox.getChildren().add( l );
-			
-			betBox.getChildren().add( bet );
-			betBox.getChildren().add( betInput );
-			betBox.getChildren().add( purse );
-			
-			betBox.setSpacing( 20 );
-			
-			betBox.layoutXProperty().bind( gameScene.widthProperty().divide( 2 ).subtract( betBox.widthProperty().divide( 2 ) ) );
-			betBox.layoutYProperty().bind( gameScene.heightProperty().divide( 2 ).subtract( betBox.heightProperty() ) );
-			
-			pane.getChildren().add( betBox );
-			
-			bet.setOnAction( e -> {
-				
-				try {
-					if ( Integer.parseInt( betInput.getText() ) <= p.getPurse() ) {
-						
-						p.setBet( Integer.parseInt( betInput.getText() ) );
-						
-						//displays the cards, see line 137
-						showCards( p, d, gameScene );
-						
-						checkBlackjack( d, p );
-						
-						if ( ! p.hasBlackjack() ) {
-							actionBar( pane, gameScene, p, d, deck );
-						}
-						
-						pane.getChildren().remove( betBox );
-						//int i = counter[0]++;
-						//if (i < 2) {
-						//	askForBet( p , d , deck , pane , gameScene );
-						//}
-						
-					} else {
-						throw new NumberFormatException(  );
+			try {
+				if ( Integer.parseInt( betInput.getText() ) <= p.getPurse() ) {
+					
+					p.setBet( Integer.parseInt( betInput.getText() ) );
+					
+					//displays the cards, see line 137
+					showCards( p, d, gameScene );
+					
+					checkBlackjack( d, p );
+					
+					if ( ! p.hasBlackjack() ) {
+						actionBar( pane, gameScene, p, d, deck );
 					}
-				} catch ( NumberFormatException e1 ) {
 					
-					l.setVisible( true );
+					pane.getChildren().remove( betBox );
+					//int i = counter[0]++;
+					//if (i < 2) {
+					//	askForBet( p , d , deck , pane , gameScene );
+					//}
 					
+				} else {
+					throw new NumberFormatException();
 				}
+			} catch ( NumberFormatException e1 ) {
 				
-			} );
+				l.setVisible( true );
+				
+			}
 			
+		} );
+		
 		//}
 		
 	}
@@ -429,15 +431,15 @@ public class GameGUI extends Application {
 		ImageView dc2 = new ImageView( dealerCard2 );
 		
 		//adds dealer cards the grid
-		dealerCardGrid.add( new Label("Dealer") , 0 , 0 );
+		dealerCardGrid.add( new Label( "Dealer" ), 0, 0 );
 		dealerCardGrid.add( dc1, 0, 1 );
 		dealerCardGrid.add( dc2, 1, 1 );
 		
 		pHandValue.setText( "Hand Value: " + p.getHandValue() );
 		
 		//adds player cards to grid
-		playerCardGrid.add( new Label("Player") , 0 , 0 );
-		playerCardGrid.add( pHandValue , 1 , 0 );
+		playerCardGrid.add( new Label( "Player" ), 0, 0 );
+		playerCardGrid.add( pHandValue, 1, 0 );
 		playerCardGrid.add( pc1, 0, 1 );
 		playerCardGrid.add( pc2, 1, 1 );
 		
@@ -470,8 +472,8 @@ public class GameGUI extends Application {
 		
 		//creates the text showing the value of the player's hand
 		playerCardGrid.getChildren().remove( pHandValue );
-		playerCardGrid.add( pHandValue , 1 , 0 );
-		pHandValue.setText("Hand Value: " + p.getHandValue());
+		playerCardGrid.add( pHandValue, 1, 0 );
+		pHandValue.setText( "Hand Value: " + p.getHandValue() );
 		
 	}
 	
@@ -498,7 +500,7 @@ public class GameGUI extends Application {
 	 * up tp 21.
 	 * </p>
 	 *
-	 * @param dealer     The dealer who will be performing actions.
+	 * @param dealer The dealer who will be performing actions.
 	 * @param player The player that will be playing blackjack.
 	 */
 	private void checkBlackjack( Dealer dealer, Player player ) {
@@ -507,7 +509,7 @@ public class GameGUI extends Application {
 			payToPlayer3( player );
 			textArea.getChildren().add( new Label( "\nYou got blackjack\n" ) );
 			try {
-				if (playAsPlayer) {
+				if ( playAsPlayer ) {
 					writeToPlayerCSV( player );
 				} else {
 					writeToAICSV( player );
@@ -533,10 +535,10 @@ public class GameGUI extends Application {
 	 */
 	private void checkRules( Dealer dealer, Player player, Pane textArea ) {
 		
-		System.out.println("checking the rules");
+		System.out.println( "checking the rules" );
 		Label label = new Label();
 		
-		if ( !dealer.isBust() && !player.isBust()) {
+		if ( ! dealer.isBust() && ! player.isBust() ) {
 			if ( player.getHandValue() == dealer.getHandValue() ) {
 				label.setText( "\nBoth tied\n" );
 				tieCount++;
@@ -553,7 +555,7 @@ public class GameGUI extends Application {
 				payToPlayer2( player );
 			}
 			try {
-				if (playAsPlayer) {
+				if ( playAsPlayer ) {
 					writeToPlayerCSV( player );
 				} else {
 					writeToAICSV( player );
@@ -595,7 +597,7 @@ public class GameGUI extends Application {
 	 * is called. A new card is added to the players hand and the displayed cards are refreshed using <code>refreshPlayerCards(Player p)</code>
 	 * </p>
 	 *
-	 * @param d     The dealer who will be performing actions.
+	 * @param d    The dealer who will be performing actions.
 	 * @param p    The player that will be playing blackjack.
 	 * @param deck The deck that the game is currently playing with.
 	 */
@@ -644,15 +646,15 @@ public class GameGUI extends Application {
 	//File I/O
 	
 	/**
-	 * @param ai            The player that will be playing blackjack.
-	 * @throws IOException	Exception is handled at the method call.
+	 * @param ai The player that will be playing blackjack.
+	 * @throws IOException Exception is handled at the method call.
 	 */
 	private void writeToAICSV( Player ai ) throws IOException {
 		
 		String filePath = "src/statistics/AIstats.csv";
 		
 		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
-		System.out.println("Writing to AI File...");
+		System.out.println( "Writing to AI File..." );
 		
 		//writing the stats to file
 		output.nextLine();
@@ -664,21 +666,21 @@ public class GameGUI extends Application {
 		output.writeString( Integer.toString( ai.getPurse() - 100 ) );
 		
 		output.closeFile();
-		System.out.println("File output stream closed...");
+		System.out.println( "File output stream closed..." );
 		
 		
 	}
 	
 	/**
-	 * @param p             The player that will be playing blackjack.
-	 * @throws IOException	Exception is handled at the method call.
+	 * @param p The player that will be playing blackjack.
+	 * @throws IOException Exception is handled at the method call.
 	 */
 	private void writeToPlayerCSV( Player p ) throws IOException {
 		
 		String filePath = "src/statistics/Playerstats.csv";
 		
 		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
-		System.out.println("Writing to Player File...");
+		System.out.println( "Writing to Player File..." );
 		
 		//writing the stats to file
 		output.nextLine();
@@ -690,20 +692,20 @@ public class GameGUI extends Application {
 		output.writeString( Integer.toString( p.getPurse() - 100 ) );
 		
 		output.closeFile();
-		System.out.println("File output stream closed...");
+		System.out.println( "File output stream closed..." );
 		
 	}
 	
 	/**
-	 * @param d             The dealer who will be performing actions.
-	 * @throws IOException	Exception is handled at the method call.
+	 * @param d The dealer who will be performing actions.
+	 * @throws IOException Exception is handled at the method call.
 	 */
 	private void writeToDealerCSV( Dealer d ) throws IOException {
 		
 		String filePath = "src/statistics/Dealerstats.csv";
 		
 		ExpoOutFile output = new ExpoOutFile( filePath ); //Export stream creation
-		System.out.println("Writing to Dealer File...");
+		System.out.println( "Writing to Dealer File..." );
 		
 		//writing the stats to file
 		output.nextLine();
@@ -715,15 +717,14 @@ public class GameGUI extends Application {
 		output.writeString( Integer.toString( d.getWinnings() ) );
 		
 		output.closeFile();
-		System.out.println("File output stream closed...");
+		System.out.println( "File output stream closed..." );
 		
 	}
 	
 	/**
 	 * Utility class to streamline the file writing process
 	 */
-	private class ExpoOutFile
-	{
+	private class ExpoOutFile {
 		
 		private String fileName;
 		private BufferedWriter outFile;
@@ -734,38 +735,36 @@ public class GameGUI extends Application {
 		 * Associates external file name with internal file object.
 		 * Constructs file object for writing out string values to an external file.
 		 *
-		 * @param filePath	The file path of the csv file your are writing to.
+		 * @param filePath The file path of the csv file your are writing to.
 		 * @throws IOException Exception handled during object creation
 		 **/
-		public ExpoOutFile(String filePath) throws IOException
-		{
+		ExpoOutFile( String filePath ) throws IOException {
 			fileName = filePath;
-			outFile = new BufferedWriter(new FileWriter(fileName, true));
+			outFile = new BufferedWriter( new FileWriter( fileName, true ) );
 		}
 		
 		/**
 		 * Writes a single string from internal file object to external hard drive file.
 		 *
-		 * @param input	The data that is being written into the csv file
+		 * @param input The data that is being written into the csv file
 		 **/
-		public void writeString(String input) throws IOException
-		{
-			outFile.write(input + ","); //Comma added for csv file format
+		void writeString( String input ) throws IOException {
+			outFile.write( input + "," ); //Comma added for csv file format
 		}
 		
 		
-		/**
-		 * Writes a single string from internal file object to external hard drive file.
-		 * Additionally a linefeed/carriage return is added.
-		 *
-		 * @param input	The data that is being written into the csv file
+		/*
+		  Writes a single string from internal file object to external hard drive file.
+		  Additionally a linefeed/carriage return is added.
+		 
+		  @param input	The data that is being written into the csv file
 		 *              @throws IOException Exception handled during object creation
-		 **/
+		 *
 		public void writelnString(String input) throws IOException
 		{
 			outFile.write(input + ",");
 			outFile.newLine();
-		}
+		}*/
 		
 		
 		/**
@@ -773,7 +772,7 @@ public class GameGUI extends Application {
 		 *
 		 * @throws IOException Exception handled during object creation
 		 */
-		public void nextLine() throws IOException {
+		void nextLine() throws IOException {
 			outFile.newLine();
 		}
 		
@@ -783,8 +782,7 @@ public class GameGUI extends Application {
 		 *
 		 * @throws IOException Exception handled during object creation
 		 **/
-		public void closeFile() throws IOException
-		{
+		void closeFile() throws IOException {
 			outFile.close();
 		}
 		

@@ -3,15 +3,15 @@ package engine;
 import java.util.ArrayList;
 
 /**********************************************************************
- * ${NAME}.java
+ * Deck.java
  * Assignment Number:
  * Author: Matthew Chivallati
  * Collaborations:
  * Date: 04052017
  *
- * Variable List:
+ * Variable List: deck
  *
- * Method List:
+ * Method List: Deck, addSpades, addClubs, addHeats, addDiamonds, checkRank, swap, shuffleDeck, getDeck
  *********************************************************************/
 
 public class Deck {
@@ -183,9 +183,9 @@ public class Deck {
 		
 	}
 	
-	/**
-	 * OBJECT METHOD
-	 */
+	/*
+	  OBJECT METHOD
+	 
 	void printDeck() {
 		
 		for ( Card aDeck : deck ) {
@@ -194,7 +194,7 @@ public class Deck {
 			
 		}
 		
-	}
+	}*/
 	
 	/**
 	 * OBJECT METHOD

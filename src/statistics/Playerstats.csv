@@ -1,2 +1,5 @@
 Type,Win Count,Lose Count,Bust Count,Tie Count,Total Winnings,
 Player,0,1,0,0,-13,
+Player,0,1,1,0,-100,
+Player,0,1,0,0,-100,
+Player,1,0,0,0,112,

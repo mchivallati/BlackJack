@@ -3,15 +3,15 @@ package engine;
 import java.util.ArrayList;
 
 /**********************************************************************
- * ${NAME}.java
+ * Dealer.java
  * Assignment Number:
  * Author: Matthew Chivallati
  * Collaborations:
  * Date: 04052017
  *
- * Variable List:
+ * Variable List: winnings
  *
- * Method List:
+ * Method List: Dealer, hit, useDealerAI, getWinnings, setWinnings, toString
  *********************************************************************/
 public class Dealer extends Person {
 	
@@ -74,13 +74,6 @@ public class Dealer extends Person {
 			stay();
 		}
 		
-	}
-	
-	/**
-	 * @return String gets a card of the dealer's to display, per Blackjack rules
-	 */
-	public String showCard() {
-		return hand.get( 1 ).toString();
 	}
 	
 	public int getWinnings() {
